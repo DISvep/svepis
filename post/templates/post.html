@@ -1,4 +1,4 @@
-<div class="card fs-4 rounded-3 bg-primary-subtle border {% if announcement %}border-warning{% endif %} message-card" style="width: 100%; display: {{display}};" id="announcement_{{pk}}">
+<div class="card fs-4 rounded-3 bg-danger border {% if announcement %}border-warning{% endif %} message-card" style="width: 100%; display: {{display}};" id="announcement_{{pk}}">
     <div class="card-body">
         <div class="card-title fs-5">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" width="28" height="28" class="rounded-circle"> {{first_name}} {{last_name}} <span class="text-secondary">@{{username}}</span> <span class="fw-light ms-2 fs-6 text-secondary">{{date|timesince}} ago</span>
