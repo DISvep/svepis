@@ -5,11 +5,49 @@
 {% endblock title %}
 
 {% block content %}
-    {% for post in posts %}
-        <div class="border">
-            <h1>{{post.title}}</h1>
-            <h2>{{post.user.username}} at {{post.date}}</h2>
-            <p>{{post.content}}</p>
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="postModalLabel">Create Post</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="{% url 'create-post' %}">
+                {% csrf_token %}
+                {{ PostForm.as_p }}
+                <hr>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+              <script>
+                var textarea = document.getElementById("postArea");
+
+                textarea.addEventListener('input', function(){
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                    submit.style.display = 'block';
+                    cancel.style.display = 'block';
+                });
+            </script>
+          </div>
         </div>
-    {% endfor %}
+      </div>
+    </div>
+    <nav class="navbar bg-secondary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Posts</span>
+            <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#postModal"><i class="bi bi-plus-lg"></i> Create</button>
+      </div>
+    </nav>
+    <div class="container mt-3 border-start border-end">
+        <div class="row">
+            <h1 class="d-flex justify-content-center">All Posts</h1>
+            
+            <div class="col-12">
+                {% for post in posts %}
+                    {% include 'post.html' with display='block' pk=post.pk first_name=post.user.first_name last_name=post.user.last_name username=post.user.username date=post.date content=post.content %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock content %}
