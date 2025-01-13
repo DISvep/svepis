@@ -33,9 +33,9 @@ Join us and become a part of this exciting and evolving project! </p>
                         {% for ann in Announcements %}
                             <div class="container" id="announcements">
                                 {% if forloop.first %}
-                                    {% include 'post.html' with announcement=True display="block" pk=ann.pk first_name=ann.user.first_name last_name=ann.user.last_name username=ann.user.username date=ann.date content=ann.content %}
+                                    {% include 'post.html' with announcement=True display="block" pk=ann.pk user=ann.user current_user=current_user date=ann.date content=ann.content %}
                                 {% else %}
-                                    {% include 'post.html' with announcement=True display="none" pk=ann.pk first_name=ann.user.first_name last_name=ann.user.last_name username=ann.user.username date=ann.date content=ann.content %}
+                                    {% include 'post.html' with announcement=True display="none" pk=ann.pk user=ann.user current_user=current_user date=ann.date content=ann.content %}
                                 {% endif %}
                             </div>
                         {% endfor %}

@@ -1,7 +1,31 @@
 <div class="card fs-4 bg-danger shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%; display: {{display}};" id="announcement_{{pk}}">
     <div class="card-body">
         <div class="card-title fs-5">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" width="28" height="28" class="rounded-circle"> {{first_name}} {{last_name}} <span class="text-secondary">@{{username}}</span> <span class="fw-light ms-2 fs-6 text-secondary">{{date|timesince}} ago</span>
+            <div class="row">
+                <div class="col-auto">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" width="28" height="28" class="rounded-circle"> {{user.first_name}} {{user.last_name}} <span class="text-secondary">@{{user.username}}</span> <span class="fw-light ms-2 fs-6 text-secondary">{{date|timesince}} ago</span>
+                </div>
+                {% if not announcement %}
+                    <div class="col d-flex justify-content-end">
+                        <div class="dropend">
+                            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg width="12" height="14" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% if user == current_user or current_user.is_superuser %}<li><button class="btn btn-lg dropdown-item" data-bs-toggle="modal" type="button" data-bs-target="#updateModal" data-pk="{{pk}}" data-content="{{content|escape}}"><b>edit</b></button></li>{% endif %}
+                                <li><a class="dropdown-item text-warning" href="#"><b>report</b></a></li>
+                                {% if user == current_user or current_user.is_superuser %}<li><hr class="dropdown-divider border-top border-secondary"></li>
+                                <li>
+                                    <a type="button" class="dropdown-item text-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-post-url="#" data-post-title="" data-pk="{{pk}}" data-username="{{user.username}}" data-date="{{date}}"><b>delete</b></a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
         <div class="card-text ms-5">
             {{content}}
