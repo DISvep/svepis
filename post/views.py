@@ -1,8 +1,10 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, ListView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm
+from main.mixins import IsOwnerMixin
 
 
 # Create your views here.
@@ -27,7 +29,7 @@ class PostList(ListView):
         return Post.objects.all().order_by('-date')
     
 
-class CreatePost(CreateView):
+class PostCreate(CreateView):
     model = Post
     
     def post(self, request, *args, **kwargs):
@@ -42,3 +44,18 @@ class CreatePost(CreateView):
         else:
             return HttpResponseRedirect(reverse('post-list'))
 
+
+class PostUpdate(IsOwnerMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+        
+    def get_success_url(self):
+        return reverse_lazy('post-list')
+
+
+class PostDelete(IsOwnerMixin, DeleteView):
+    model = Post
+    
+    def get_success_url(self):
+        return reverse_lazy('post-list')
+    
