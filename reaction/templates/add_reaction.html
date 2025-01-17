@@ -1,0 +1,58 @@
+<button class="btn btn-sm bg-info rounded-pill" id="addReaction{{pk}}">
+    <span class="text-light">+<i class="bi bi-emoji-smile-fill"></i></span>
+</button>
+<div id="emoji-picker{{pk}}" style="display: none; position: absolute; z-index: 9999; background: black;"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pickerOptions{{pk}} = { onEmojiSelect: (emoji) => handleEmojiSelect(emoji) };
+        const picker{{pk}} = new EmojiMart.Picker(pickerOptions{{pk}});
+        
+        const pickerContainer{{pk}} = document.getElementById('emoji-picker{{pk}}');
+        pickerContainer{{pk}}.appendChild(picker{{pk}});
+        
+        document.getElementById('addReaction{{pk}}').addEventListener('click', () => {
+            pickerContainer{{pk}}.style.display = 
+                pickerContainer{{pk}}.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        function handleEmojiSelect(emoji) {
+            pickerContainer{{pk}}.style.display = 'none';
+            
+            // Используем форму для отправки POST-запроса
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/reaction/post/{{pk}}';
+            form.style.display = 'none';
+            
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = getCookie('csrftoken');
+            form.appendChild(csrfInput);
+            
+            const emojiInput = document.createElement('input');
+            emojiInput.type = 'hidden';
+            emojiInput.name = 'emoji';
+            emojiInput.value = emoji.native;
+            form.appendChild(emojiInput);
+            
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
