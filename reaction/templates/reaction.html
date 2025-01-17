@@ -1,0 +1,7 @@
+<form action="{% url 'post-reaction' pk %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="emoji" value="{{emoji}}">
+    <button class="btn btn-sm bg-secondary rounded-pill justify-content-center align-items-center reaction-btn" id="emojiButton{{pk}}" data-emoji="{{emoji}}" data-post-pk="{{pk}}">
+        <span>{{ emoji }}</span> &nbsp;<span class="ms-4">{{ count }}</span>
+    </button>
+</form>

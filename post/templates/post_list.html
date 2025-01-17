@@ -117,8 +117,8 @@
             <h1 class="d-flex justify-content-center">All Posts</h1>
             
             <div class="col-12">
-                {% for post in posts %}
-                    {% include 'post.html' with display='block' pk=post.pk user=post.user current_user=current_user date=post.date content=post.content %}
+                {% for post, reactions in PostReactions.items %}
+                    {% include 'post.html' with display='block' pk=post.pk user=post.user current_user=current_user date=post.date content=post.content reactions=reactions %}
                 {% endfor %}
             </div>
         </div>

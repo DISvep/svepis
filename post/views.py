@@ -1,10 +1,13 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm
 from main.mixins import IsOwnerMixin
+from reaction.models import PostReaction
 
 
 # Create your views here.
@@ -23,13 +26,22 @@ class PostList(ListView):
         context = super().get_context_data(**kwargs)
         context['PostForm'] = PostForm
         
+        posts = Post.objects.prefetch_related(
+            Prefetch('reactions', queryset=PostReaction.objects.prefetch_related('users'))
+        )
+        posts_with_reactions = {
+            post: {reaction.emoji: reaction.count() for reaction in post.reactions.all()}
+            for post in posts
+        }
+        context['PostReactions'] = posts_with_reactions
+        
         return context
     
     def get_queryset(self):
         return Post.objects.all().order_by('-date')
     
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     
     def post(self, request, *args, **kwargs):
@@ -45,7 +57,7 @@ class PostCreate(CreateView):
             return HttpResponseRedirect(reverse('post-list'))
 
 
-class PostUpdate(IsOwnerMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, IsOwnerMixin, UpdateView):
     model = Post
     form_class = PostForm
         
@@ -53,9 +65,8 @@ class PostUpdate(IsOwnerMixin, UpdateView):
         return reverse_lazy('post-list')
 
 
-class PostDelete(IsOwnerMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, IsOwnerMixin, DeleteView):
     model = Post
     
     def get_success_url(self):
         return reverse_lazy('post-list')
-    
