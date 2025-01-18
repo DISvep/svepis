@@ -28,7 +28,7 @@ class PostList(ListView):
         
         posts = Post.objects.prefetch_related(
             Prefetch('reactions', queryset=PostReaction.objects.prefetch_related('users'))
-        )
+        ).order_by('-date')
         posts_with_reactions = {
             post: {reaction.emoji: reaction.count() for reaction in post.reactions.all()}
             for post in posts

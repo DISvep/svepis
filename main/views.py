@@ -26,7 +26,6 @@ def load_more_announcements(request):
     data = [
         {'pk': a.pk} for a in announcements
     ]
-    print(data, offset, post.models.Announcement.objects.all())
     return JsonResponse({'announcements': data})
 
 
