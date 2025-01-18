@@ -1,0 +1,29 @@
+<form method="post" action="{% url 'comment-create' pk %}">
+    {% csrf_token %}
+    <div class="container justify-content-center border rounded-3" style="overflow-y: hidden; padding: 10px">
+        {{ comment_form.content }}
+        <input type="hidden" name="post_pk" value="{{post.pk}}">
+        <button id="submit_button" type="submit" class="btn btn-primary btn-sm rounded-5 mt-1" style="float: right; display: none">Comment</button>
+        <button id="cancel_button" type="reset" onclick="resetComment()" class="btn btn-secondary btn-sm rounded-5 mt-1 me-1" style="float: right; display: none">Cancel</button>
+    </div>
+
+    <script>
+        var textarea = document.querySelector("textarea");
+        var submit = document.getElementById("submit_button");
+        var cancel = document.getElementById("cancel_button");
+
+        textarea.addEventListener('input', function(){
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+            submit.style.display = 'block';
+            cancel.style.display = 'block';
+        });
+
+        function resetComment(){
+            textarea.value = "";
+            textarea.style.height = 'auto';
+            submit.style.display = 'none';
+            cancel.style.display = 'none';
+        };
+    </script>
+</form>

@@ -1,5 +1,5 @@
-<div style="display: {{display}};">
-    <div class="card fs-4 bg-danger shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%;" id="announcement_{{pk}}">
+<div style="display: {{display}};" id="announcement_{{pk}}">
+    <div class="card fs-4 bg-danger shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%;">
         <div class="card-body">
             <div class="card-title fs-5">
                 <div class="row">
@@ -32,16 +32,21 @@
                 {{content|escape}}
             </div>
         </div>
+        {% if not detail %}
+            {% include 'comment_button.html' with pk=pk %}
+        {% endif %}
     </div>
-    <div class="row align-items-center" style="position: relative;">
-        {% for emoji, count in reactions.items %}
-            <div class="col-xs" id="post-reactions">
-                {% include 'reaction.html' with emoji=emoji count=count pk=pk %}
-             </div>
-        {% endfor %}
-       
-        <div class="col-auto">
-            {% include 'add_reaction.html' with pk=pk %}
+    {% if not comment %}
+        <div class="row align-items-center" style="position: relative;">
+            {% for emoji, count in reactions.items %}
+                <div class="col-xs" id="post-reactions">
+                    {% include 'reaction.html' with emoji=emoji count=count pk=pk %}
+                 </div>
+            {% endfor %}
+           
+            <div class="col-auto">
+                {% include 'add_reaction.html' with pk=pk %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 </div>
