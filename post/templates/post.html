@@ -32,7 +32,7 @@
                 {{content|escape}}
             </div>
         </div>
-        {% if not detail %}
+        {% if not detail and not announcement %}
             {% include 'comment_button.html' with pk=pk %}
         {% endif %}
     </div>
