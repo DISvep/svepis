@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'main',
     'post',
     'reaction',
-    'comment'
+    'comment',
+    'portal',
+    'widget'
 ]
 
 MIDDLEWARE = [
