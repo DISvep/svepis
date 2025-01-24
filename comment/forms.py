@@ -12,7 +12,8 @@ class CommentForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Add your comment...',
                 'rows': 1,
-                'style': 'border: none; resize: none;'
+                'style': 'border: none; resize: none;',
+                'id': 'commentAdd'
             })
         }
     

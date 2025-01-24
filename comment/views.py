@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import PostComment
 from .forms import CommentForm
 from post.models import Post
+from main.mixins import IsOwnerMixin
 from reaction.models import PostReaction
 from django.db.models import Prefetch
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -44,3 +45,18 @@ class CreatePostCommentView(LoginRequiredMixin, CreateView):
             return HttpResponseRedirect(reverse_lazy('post-comments', kwargs={'pk': request.POST.get('post_pk')}))
         else:
             return HttpResponseRedirect(reverse_lazy('post-comments', kwargs={'pk': request.POST.get('post_pk')}))
+
+
+class UpdatePostCommentView(LoginRequiredMixin, IsOwnerMixin, UpdateView):
+    model = PostComment
+    form_class = CommentForm
+    
+    def get_success_url(self):
+        return reverse_lazy('post-comments', kwargs={'pk': self.object.post.pk})
+
+
+class DeletePostCommentView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
+    model = PostComment
+    
+    def get_success_url(self):
+        return reverse_lazy('post-comments', kwargs={'pk': self.object.post.pk})

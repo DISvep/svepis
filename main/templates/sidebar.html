@@ -1,4 +1,4 @@
-<div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar">
+<div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar" style="position: fixed;">
     <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-decoration-none">
         <span class="fs-3">Svepis</span>
     </a>
@@ -53,6 +53,9 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
                 <li>
+                    <a class="dropdown-item btn btn-primary" href="{% url 'portal' user.portal.pk %}">Portal</a>
+                </li>
+                <li>
                     <hr class="dropdown-divider">
                 </li>
                 <li>
@@ -65,7 +68,7 @@
         {% else %}
             <div class="d-flex ms-auto">
                 <a class="btn btn-primary btn-lg rounded-pill me-2" href="/login/"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-                <a class="btn btn-outline-primary btn-lg rounded-pill" href="/signup/"><i class="bi bi-box-arrow-in-right"></i> Register</a>
+                <a class="btn btn-outline-primary btn-lg rounded-pill" href="/register/"><i class="bi bi-box-arrow-in-right"></i> Register</a>
             </div>
         {% endif %}
     </div>

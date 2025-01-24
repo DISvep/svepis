@@ -24,6 +24,8 @@ urlpatterns = [
     path('', include('main.urls')),
     path('post/', include('post.urls')),
     path('reaction/', include('reaction.urls')),
-    path('comment/', include('comment.urls'))
+    path('comment/', include('comment.urls')),
+    path('portal/', include('portal.urls')),
+    path('widget/', include('widget.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
