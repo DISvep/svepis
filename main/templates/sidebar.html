@@ -53,6 +53,15 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
                 <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#friendsModal" class="dropdown-item btn btn-primary">Friends</button>
+                </li>
+                <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#requestModal" class="dropdown-item btn btn-primary">Requests</button>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
                     <a class="dropdown-item btn btn-primary" href="{% url 'portal' user.portal.pk %}">Portal</a>
                 </li>
                 <li>

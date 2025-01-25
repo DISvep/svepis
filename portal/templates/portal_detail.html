@@ -21,6 +21,35 @@
                     <div class="card-body">
                         <img src="{{portal.avatar.url}}" class="rounded-circle" width="128" height="128" style="position: absolute;">
                         <h2 class="card-title text-right">{{portal.user.username}} Portal</h2>
+                        {% if current_user != portal.user %}
+                            {% if friends %}
+                                <div class="container" style="margin: 0 120px;">
+                                    You are friends
+                                </div>
+                            {% elif acceptSent %}
+                                <div class="row" style="margin: 0 100px;">
+                                    <div class="col-1">
+                                        <form method="post" action="{% url 'accept' portal.user.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-sm btn-success" type="submit"><i class="bi bi-check-lg"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-1">
+                                        <form method="post" action="{% url 'cancel' portal.user.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-sm btn-secondary" type="submit"><i class="bi bi-x-lg"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="container" style="margin: 0 100px;">
+                                    <form method="post" action="{% url 'send-request' portal.user.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-info" type="submit">{% if requestSent %}Cancel Request{% else %}Add Friend{% endif %}</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -30,6 +59,7 @@
                     <a href="{% url 'portal-create' %}">Edit Profile</a>
                 {% endif %}
                 <br>
+                <p>Friends: {{portal.user.friend_list.friends.count}}</p>
                 <p>Joined at: {{portal.joined_at}}</p>
                 <p>{{portal.about}}</p>
             </div>
@@ -38,17 +68,19 @@
             let editMode = false;
             
             window.onload = () => {
-                const widgets = document.querySelectorAll('.widget');
-                
-                document.getElementById('edit').addEventListener('click', editFunction);
-                
-                function editFunction() {
-                    if (editMode) {
-                        location.reload();
-                    } else {
-                        editMode = true;
-                        document.getElementById('edit').innerText = 'Save';
-                        widgets.forEach(widget => makeDraggable(widget));  
+                if ("{{current_user}}" == "{{portal.user}}") {
+                    const widgets = document.querySelectorAll('.widget');
+                    
+                    document.getElementById('edit').addEventListener('click', editFunction);
+                    
+                    function editFunction() {
+                        if (editMode) {
+                            location.reload();
+                        } else {
+                            editMode = true;
+                            document.getElementById('edit').innerText = 'Save';
+                            widgets.forEach(widget => makeDraggable(widget));  
+                        }
                     }
                 }
             }
