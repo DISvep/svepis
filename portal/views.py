@@ -3,6 +3,7 @@ from django.views.generic import DetailView, UpdateView
 from .models import Portal
 from subscription.models import FriendList
 from .forms import PortalForm
+from widget.forms import WidgetForm
 from django.db.models.signals import post_save
 from django.db.models import Prefetch
 from django.dispatch import receiver
@@ -21,6 +22,8 @@ class PortalDetail(DetailView):
         context = super().get_context_data(**kwargs)
         
         context['widgets'] = self.object.user.widgets.all()
+        
+        context['widgetForm'] = WidgetForm
         
         requestSent = FriendRequest.objects.filter(
             sender=self.request.user, receiver=self.object.user, is_active=True
