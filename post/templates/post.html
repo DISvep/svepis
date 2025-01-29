@@ -1,11 +1,13 @@
 <div style="display: {{display}};" id="announcement_{{pk}}">
     <div class="card fs-4 bg-danger shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%;">
         <div class="card-body">
-            <div class="card-title fs-5">
+            <div class="card-title text-light fs-5">
                 <div class="row">
-                    <div class="col-auto">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" width="28" height="28" class="rounded-circle"> {{user.first_name}} {{user.last_name}} <span class="text-secondary">@{{user.username}}</span> <span class="fw-light ms-2 fs-6 text-secondary">{{date|timesince}} ago</span>
-                    </div>
+                    <a href="{% url 'portal' user.portal.pk %}">
+                        <div class="col-auto">
+                            <img src="{{user.portal.avatar.url}}" width="28" height="28" class="rounded-circle"> {{user.first_name}} {{user.last_name}} <span class="text-secondary">@{{user.username}}</span> <span class="fw-light ms-2 fs-6 text-secondary">{{date|timesince}} ago</span>
+                        </div>
+                    </a>
                     {% if not announcement %}
                         <div class="col d-flex justify-content-end">
                             <div class="dropend">
@@ -28,7 +30,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="card-text ms-5">
+            <div class="card-text text-light ms-5">
                 {{content|escape}}
             </div>
         </div>
@@ -36,7 +38,7 @@
             {% include 'comment_button.html' with pk=pk %}
         {% endif %}
     </div>
-    {% if not comment %}
+    {% if not comment and not announcement %}
         <div class="row align-items-center" style="position: relative;">
             {% for emoji, count in reactions.items %}
                 <div class="col-xs" id="post-reactions">

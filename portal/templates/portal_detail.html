@@ -75,16 +75,13 @@
                     document.getElementById("deleteWidgetButton").addEventListener("click", function () {
                         var select = document.getElementById('widgetChoice');
                         var widget_id = select.options[select.selectedIndex].value;
-                        console.log(widget_id);
                         var form = document.getElementById('deleteWidgetForm');
                         form.action = `/widget/delete-widget/${widget_id}`;
-                        console.log(form);
                     });
                     
                     document.getElementById("editSaveButton").addEventListener("click", function () {
                         var select = document.getElementById('widgetChoice');
                         var widget_id = select.options[select.selectedIndex].value;
-                        console.log(widget_id);
                         var width = document.getElementById('width').value;
                         var height = document.getElementById('height').value;
                         var z_index = document.getElementById('z-index').value;
@@ -115,7 +112,11 @@
                         {% if current_user != portal.user %}
                             {% if friends %}
                                 <div class="container" style="margin: 0 120px;">
-                                    You are friends
+                                    <form method="post" action="{% url 'delete-friend' portal.user.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-sm btn-danger" type="submit">Delete Friend</button>
+                                        <button class="btn btn-sm btn-danger" type="submit">Delete Friend</button>
+                                    </form>
                                 </div>
                             {% elif acceptSent %}
                                 <div class="row" style="margin: 0 100px;">
