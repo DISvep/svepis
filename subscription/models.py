@@ -2,6 +2,35 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class SubscriptionList(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription_list')
+    subscribers = models.ManyToManyField(User, blank=True, related_query_name='subscribers')
+    subscriptions = models.ManyToManyField(User, blank=True, related_name="subscriptions")
+    
+    def __str__(self):
+        return self.user.username
+    
+    def add_subscriber(self, account):
+        if not account in self.subscribers.all():
+            self.subscribers.add(account)
+            
+    def remove_subscriber(self, account):
+        if account in self.subscribers.all():
+            self.subscribers.remove(account)
+    
+    def subscribe(self, account):
+        if not account in self.subscriptions.all():
+            self.subscriptions.add(account)
+            subscribers_account = SubscriptionList.objects.get(user=account)
+            subscribers_account.add_subscriber(self.user)
+    
+    def unsubscribe(self, account):
+        if account in self.subscriptions.all():
+            self.subscriptions.remove(account)
+            subscribers_account = SubscriptionList.objects.get(user=account)
+            subscribers_account.remove_subscriber(self.user)
+
+
 class FriendList(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="friend_list")
     friends = models.ManyToManyField(User, blank=True, related_name='friends')

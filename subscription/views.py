@@ -9,6 +9,18 @@ from .models import FriendRequest
 
 
 # Create your views here.
+class SubscribeButtonView(LoginRequiredMixin, View):
+    def post(self, request, user_pk, *args, **kwargs):
+        portal = get_object_or_404(User, pk=user_pk)
+        
+        if portal != request.user:
+            if portal in request.user.subscription_list.subscriptions.all():
+                request.user.subscription_list.unsubscribe(portal)
+            else:
+                request.user.subscription_list.subscribe(portal)
+        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': portal.portal.pk}))
+
+
 class SendFriendRequestView(LoginRequiredMixin, View):
     def post(self, request, user_pk, *args, **kwargs):
         receiver = get_object_or_404(User, pk=user_pk)

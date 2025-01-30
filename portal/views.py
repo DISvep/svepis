@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, UpdateView
 from .models import Portal
-from subscription.models import FriendList
+from subscription.models import FriendList, FriendRequest, SubscriptionList
 from .forms import PortalForm
 from widget.forms import WidgetForm
 from django.db.models.signals import post_save
@@ -10,7 +10,6 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from widget.models import Widget
-from subscription.models import FriendRequest
 
 
 class PortalDetail(DetailView):
@@ -34,6 +33,9 @@ class PortalDetail(DetailView):
         
         friends = self.request.user.friends.all().filter(user__pk=self.object.user.pk)
         context['friends'] = friends
+        
+        subscription = self.object.user in self.request.user.subscription_list.subscriptions.all()
+        context['subscription'] = subscription
         
         if requestSent:
             context['requestSent'] = True
@@ -65,6 +67,7 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         Portal.objects.create(user=instance)
         FriendList.objects.create(user=instance)
+        SubscriptionList.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
