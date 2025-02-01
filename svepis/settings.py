@@ -37,14 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
+    'channels',
     'main',
     'post',
     'reaction',
     'comment',
     'portal',
     'widget',
-    'subscription'
+    'subscription',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'svepis.wsgi.application'
+ASGI_APPLICATION = 'svepis.asgi.application'
 
 
 # Database
