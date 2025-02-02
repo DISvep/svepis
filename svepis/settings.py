@@ -37,14 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
+    'channels',
     'main',
     'post',
     'reaction',
     'comment',
     'portal',
     'widget',
-    'subscription'
+    'subscription',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +80,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'svepis.wsgi.application'
+ASGI_APPLICATION = 'svepis.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
