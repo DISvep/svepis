@@ -7,15 +7,6 @@ from .models import Widget
 from .forms import WidgetForm
 
 
-class PortalEditorView(LoginRequiredMixin, ListView):
-    model = Widget
-    template_name = 'redactor.html'
-    context_object_name = 'widgets'
-
-    def get_queryset(self):
-        return Widget.objects.filter(user=self.request.user)
-
-
 class WidgetCreateView(LoginRequiredMixin, CreateView):
     model = Widget
     form_class = WidgetForm

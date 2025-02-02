@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}
@@ -21,31 +20,7 @@
                     {{ widgetForm.as_p }}
                     <button class="btn btn-primary" type="submit" id="saveWidgetButton">Save</button>
                 </form>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        var select = document.getElementById('widgetType');
-                        select.selectedIndex = 0;
-                    });
-                
-                    document.getElementById('widgetType').addEventListener("change", function () {
-                        var type = this.value;
-                        var contentField = document.getElementById('content');
-                        var imageField = document.getElementById('image');
-                        
-                        if (type === 'text') {
-                            contentField.style.display = "block";
-                        } else {
-                            contentField.style.display = "none";
-                        }
-                        
-                        if (type === "image") {
-                            imageField.style.display = "block";
-                        } else {
-                            imageField.style.display = "none";
-                        }
-                        
-                    });
-                </script>
+                <script src="{% static 'js/portal/add_widget.js' %}"></script>
             </div>
         </div>
     </div>
@@ -72,31 +47,9 @@
                     <button class="btn btn-danger" id="deleteWidgetButton" type="submit">Delete</button>
                 </form>
                 <script>
-                    document.getElementById("deleteWidgetButton").addEventListener("click", function () {
-                        var select = document.getElementById('widgetChoice');
-                        var widget_id = select.options[select.selectedIndex].value;
-                        var form = document.getElementById('deleteWidgetForm');
-                        form.action = `/widget/delete-widget/${widget_id}`;
-                    });
-                    
-                    document.getElementById("editSaveButton").addEventListener("click", function () {
-                        var select = document.getElementById('widgetChoice');
-                        var widget_id = select.options[select.selectedIndex].value;
-                        var width = document.getElementById('width').value;
-                        var height = document.getElementById('height').value;
-                        var z_index = document.getElementById('z-index').value;
-                        fetch(`/widget/update-widget/${widget_id}`, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRFToken': '{{ csrf_token }}',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: new URLSearchParams({ width: width, height: height, z_index: z_index })
-                        }).then(function () {
-                            location.reload();
-                        });
-                    });
+                    const csrf_token = "{{ csrf_token }}";
                 </script>
+                <script src="{% static 'js/portal/edit_widget.js' %}"></script>
             </div>
         </div>
     </div>
@@ -167,92 +120,10 @@
             </div>
         </div>
         <script>
-            let editMode = false;
-            
-            window.onload = () => {
-                if ("{{current_user}}" == "{{portal.user}}") {
-                    const widgets = document.querySelectorAll('.widget');
-                    
-                    document.getElementById('edit').addEventListener('click', editFunction);
-                    
-                    function editFunction() {
-                        if (editMode) {
-                            location.reload();
-                        } else {
-                            editMode = true;
-                            document.getElementById('edit').innerText = 'Save';
-                            widgets.forEach(widget => makeDraggable(widget));  
-                        }
-                    }
-                }
-            }
-        
-            function updatePosition(widgetId, x, y) {
-                fetch(`/widget/update-widget-position/${widgetId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ x_position: x, y_position: y })
-                });
-            }
-        
-            function makeDraggable(widget) {
-                let newX = 0, newY = 0, startX = 0, startY = 0, newTop = 0, newLeft = 0;
-                
-                const container = widget.parentElement;
-                const containerRect = container.getBoundingClientRect();
-                
-                widget.addEventListener('mousedown', function (e) {
-                    startX = e.clientX
-                    startY = e.clientY
-                    
-                    document.addEventListener('mousemove', mouseMove)
-                    document.addEventListener('mouseup', mouseUp)
-                });
-                
-                function mouseMove(e) {
-                    newX = startX - e.clientX
-                    newY = startY - e.clientY
-                    
-                    startX = e.clientX
-                    startY = e.clientY
-                    
-                    newTop = widget.offsetTop - newY;
-                    newLeft = widget.offsetLeft - newX;
-                    
-                    const widgetRect = widget.getBoundingClientRect();
-                    
-                    if (newLeft < 0) {
-                        newLeft = 0;
-                        console.log('LEFT');
-                    } else if (newLeft + widgetRect.width > containerRect.width) {
-                        newLeft = containerRect.width - widgetRect.width;
-                        console.log('RIGHT');
-                    }
-                    
-                    if (newTop < 0) {
-                        newTop = 0;
-                        console.log("TOP");
-                    } else if (newTop + widgetRect.height > 500) {
-                        newTop = 500 - widgetRect.height;
-                    }
-                    
-                    widget.style.top = newTop + 'px'
-                    widget.style.left = newLeft + 'px'
-                    
-                }
-                
-                function mouseUp(e) {
-                    let x = parseInt(widget.style.left);
-                    let y = parseInt(widget.style.top);
-                    updatePosition(widget.dataset.id, x, y);
-                    document.removeEventListener('mousemove', mouseMove);
-                }
-                
-            }
+            const current_user = "{{ current_user }}";
+            const portal_user = "{{ portal.user }}";
         </script>
+        <script src="{% static 'js/portal/edit.js' %}"></script>
         {% if current_user == portal.user %}
             <button id="edit" type="button" class="btn btn-secondary">Edit Portal</button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Widget</button>
