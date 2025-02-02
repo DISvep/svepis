@@ -1,13 +1,15 @@
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from .serializers import PostSerializer, AnnouncementSerializer
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Prefetch
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from .models import Post
-from .forms import PostForm
-from main.mixins import IsOwnerMixin
 from reaction.models import PostReaction
+from django.db.models import Prefetch
+from django.urls import reverse_lazy
+from main.mixins import IsOwnerMixin
+from rest_framework import generics
+from .forms import PostForm
+from .models import Post
 
 
 # Create your views here.
@@ -70,3 +72,8 @@ class PostDelete(LoginRequiredMixin, IsOwnerMixin, DeleteView):
     
     def get_success_url(self):
         return reverse_lazy('post-list')
+
+
+class PostListAPI(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer

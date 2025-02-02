@@ -1,3 +1,4 @@
+{% load static %}
 <form method="post" action="{% url 'comment-create' pk %}">
     {% csrf_token %}
     <div class="container justify-content-center border rounded-3" style="overflow-y: hidden; padding: 10px">
@@ -11,19 +12,6 @@
         var textarea = document.getElementById("commentAdd");
         var submit = document.getElementById("submit_button");
         var cancel = document.getElementById("cancel_button");
-
-        textarea.addEventListener('input', function(){
-            this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
-            submit.style.display = 'block';
-            cancel.style.display = 'block';
-        });
-
-        function resetComment(){
-            textarea.value = "";
-            textarea.style.height = 'auto';
-            submit.style.display = 'none';
-            cancel.style.display = 'none';
-        };
     </script>
+    <script src="{% static 'js/scaled_input.js' %}"></script>
 </form>

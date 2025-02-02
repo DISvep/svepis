@@ -1,0 +1,27 @@
+.sidebar {
+    max-height: 100vh;
+}
+
+.sidebar-content {
+    width: 100%;
+}
+
+.sidebar-item {
+    width: 100%;
+}
+
+.sidebar-link {
+    width: 100%;
+    justify-content: center;
+}
+
+.sidebar-link:hover {
+    background: #1a1a1a;
+}
+
+.message-card {
+  max-width: 100%;
+  color: white;
+  position: relative;
+  margin: 10px 0;
+}

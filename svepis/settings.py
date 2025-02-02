@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'daphne',
     'django.contrib.staticfiles',
     'channels',
+    'rest_framework',
     'main',
     'post',
     'reaction',

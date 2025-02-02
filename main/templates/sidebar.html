@@ -1,3 +1,4 @@
+{% load static %}
 <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar" style="position: fixed;">
     <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-decoration-none">
         <span class="fs-3">Svepis</span>
@@ -32,18 +33,7 @@
             <a href="#" class="nav-link sidebar-link">
                 <i class="fs-5 bi bi-play"></i><span class="ms-2 fs-5 d-none d-sm-inline">Videos</span></a>
         </li>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-            $(".nav>li").each(function() {
-                var navItem = $(this);
-                navItem
-                if (navItem.find("a").attr("href") === location.pathname) {
-                  navItem.find("a").addClass("active");
-                } else {
-                    navItem.find("a").removeClass("active");
-                }
-            });
-        </script>
+        <script src="{% static 'js/main/sidebar.js' %}"></script>
     </ul>
     <div class="dropdown py-sm-4 fs-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
         {% if user.is_authenticated %}            

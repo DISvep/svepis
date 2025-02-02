@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Post list</title>
@@ -18,21 +19,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <script>
-                        $("#deleteModal").on('show.bs.modal', function (event) {
-                            const button = event.relatedTarget;
-                            const username = button.getAttribute("data-username");
-                            const date = button.getAttribute("data-date");
-                            const pk = button.getAttribute("data-pk");
-                            
-                            const deleteLabel = document.getElementById("deleteModalLabel");
-                            deleteLabel.textContent = `Delete post by @${username} at ${date}?`
-                            
-                            const deleteForm = document.getElementById("deleteForm");
-                            deleteForm.action = `/post/delete/${pk}`;
-                            
-                        });
-                    </script>
+                    <script src="{% static 'js/post/delete.js' %}"></script>
                 </div>
             </div>
         </div>
@@ -51,16 +38,10 @@
                 <hr>
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>
-              <script>
+            <script>
                 var textarea = document.getElementById("postArea");
-
-                textarea.addEventListener('input', function(){
-                    this.style.height = 'auto';
-                    this.style.height = this.scrollHeight + 'px';
-                    submit.style.display = 'block';
-                    cancel.style.display = 'block';
-                });
             </script>
+              <script src="{% static 'js/scaled_input.js' %}"></script>
           </div>
         </div>
       </div>
@@ -79,29 +60,11 @@
                 <hr>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
-              <script>
-                  $('#updateModal').on('show.bs.modal', function (event) {
-                    const updateForm = document.getElementById("updateForm");
-                    const button = event.relatedTarget;
-                    const area = document.getElementById("areaUpdate");
-                    
-                    const pk = button.getAttribute('data-pk');
-                    const content = button.getAttribute('data-content');
-                    
-                    area.value = content;
-                    updateForm.action = `/post/update/${pk}`;
-                });
-              </script>
+              <script src="{% static 'js/post/update.js' %}"></script>
               <script>
                 var textarea = document.getElementById("areaUpdate");
-
-                textarea.addEventListener('input', function(){
-                    this.style.height = 'auto';
-                    this.style.height = this.scrollHeight + 'px';
-                    submit.style.display = 'block';
-                    cancel.style.display = 'block';
-                });
-            </script>
+              </script>
+              <script src="{% static 'js/scaled_input.js' %}"></script>
           </div>
         </div>
       </div>
