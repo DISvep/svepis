@@ -1,5 +1,6 @@
 .chat-container {
-    width: 70%;
+    width: 100%;
+    height: 100%;
     margin: auto;
     padding: 10px;
     border-radius: 10px;
@@ -13,7 +14,14 @@
     border-radius: 10px;
     width: 90%;
     margin: auto;
-    padding: 25px;
+    padding: 15px;
+    text-align: left;
+}
+
+.list-msg {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .chat-box {
@@ -22,9 +30,25 @@
     flex-direction: column;
     border-radius: 10px;
     padding: 15px;
-    max-height: 80vh;
+    height: 98vh;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-options {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    width: 200px;
+}
+
+.contextmenu-button {
+    color: black;
+    width: 100%;
+}
+
+.contextmenu-button:hover {
+    background-color: black;
 }
 
 .messages-container {
@@ -112,6 +136,29 @@
 }
 
 .chat-input-container button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-edit-container {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-edit-container input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-edit-container button {
     border: none;
     padding: 10px 15px;
     border-radius: 5px;

@@ -20,9 +20,23 @@
             <script src="{% static 'js/chat/user_search.js' %}"></script> 
             
             <div class="row">
-                {% for chat in chats %}
-                    <a class="btn btn-primary chat-el" href="{% url 'chat-page' chat.pk %}">
-                        {{ chat }}
+                {% for chat, values in chats.items %}
+                    <a class="btn btn-primary mt-2 chat-el" href="{% url 'chat-page' values.2 %}" data-chat-id="{{ values.2 }}">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="{{ values.0 }}" width="56" height="56" class="rounded-circle">
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ chat }}
+                                    </div>
+                                    <div class="col-12 list-msg">
+                                        {{ values.1 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 {% endfor %}
             </div>
@@ -43,4 +57,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const roomPk = "0";
+        const user_username = "{{ current_user.username }}";
+        const avatar_url = "{{ current_user.portal.avatar.url }}";
+    </script>
+    <script src="{% static 'js/chat/chat.js' %}"></script>
 {% endblock content %}

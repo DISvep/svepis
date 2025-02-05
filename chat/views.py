@@ -17,7 +17,9 @@ class ChatView(LoginRequiredMixin, DetailView):
 
         context['messages'] = self.object.messages.all()
         context['receiver'] = self.object.get_title(current_user=self.request.user)
-        context['chats'] = Chat.objects.all().filter(members=self.request.user)
+        get_chats = Chat.objects.all().filter(members=self.request.user)
+        chats = {chat.get_title(current_user=self.request.user): [chat.get_avatar(current_user=self.request.user), chat.get_last_message, chat.pk] for chat in get_chats}
+        context['chats'] = chats
 
         return context
 
@@ -37,10 +39,26 @@ class CreateOrGetChatView(LoginRequiredMixin, View):
 class UserChatsList(LoginRequiredMixin, ListView):
     models = Chat
     template_name = 'chats_page.html'
-    context_object_name = 'chats'
     
     def get_queryset(self):
         return Chat.objects.filter(members=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        chats = {
+            chat.get_title(
+                current_user=self.request.user
+            ): [
+                chat.get_avatar(current_user=self.request.user),
+                chat.get_last_message,
+                chat.pk
+            ]
+            for chat in self.get_queryset()
+        }
+        context['chats'] = chats
+        
+        return context
 
 
 class UserSearchView(View):

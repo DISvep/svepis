@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 class Chat(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
+    avatar = models.ImageField(upload_to='chat/avatar/', blank=True, null=True)
     members = models.ManyToManyField(User,  related_name="chats")
 
     def get_title(self, current_user=None):
@@ -22,6 +23,23 @@ class Chat(models.Model):
             return other.username
         
         return ", ".join(user.username for user in self.members.all()[:3]) + "..."
+    
+    def get_avatar(self, current_user=None):
+        if self.avatar:
+            return self.avatar
+        
+        qs = self.members.all()
+        if current_user is not None:
+            qs = qs.exclude(pk=current_user.pk)
+        
+        other = qs.first()
+        if other:
+            return other.portal.avatar.url
+        
+        return "portal/default-avatar.png"
+    
+    def get_last_message(self):
+        return Message.objects.filter(room=self).latest('date')
 
     def __str__(self):
         return self.name if self.name else ", ".join(user.username for user in self.members.all())
@@ -64,4 +82,4 @@ class Message(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.sender.username}: {self.content[:30]}"
+        return f"{self.content[:30]}"

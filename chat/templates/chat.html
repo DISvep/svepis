@@ -7,6 +7,11 @@
 {% endblock title %}
 
 {% block content %}
+    <div class="message-options card p-2" id="message-options">
+        <button class="btn contextmenu-button" data-bs-toggle="button" id="edit-message">Edit</button>
+        <hr>
+        <button class="btn contextmenu-button" data-bs-toggle="button" id="delete-message">Delete</button>
+    </div>
     <div class="row chat-container bg-info">
         <div class="col-3 chat-list bg-warning">
             <div class="bg-warning p-2">
@@ -20,9 +25,23 @@
             <script src="{% static 'js/chat/user_search.js' %}"></script> 
             
             <div class="row">
-                {% for chat in chats %}
-                    <a class="btn btn-primary chat-el" href="{% url 'chat-page' chat.pk %}">
-                        {{ chat }}
+                {% for chat, values in chats.items %}
+                    <a class="btn btn-primary mt-2 chat-el" href="{% url 'chat-page' values.2 %}" data-chat-id="{{ values.2 }}">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="{{ values.0 }}" width="56" height="56" class="rounded-circle">
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ chat }}
+                                    </div>
+                                    <div class="col-12 list-msg">
+                                        {{ values.1 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 {% endfor %}
             </div>
@@ -32,13 +51,13 @@
                 <h3 class="text-dark">{{ receiver }}</h3>
                 <div class="messages-container bg-warning" id="messagesContainer">
                     {% for msg in messages %}
-                        <div class="chat-message {% if msg.sender == request.user %}own-message{% else %}other-message{% endif %}">
+                        <div class="chat-message {% if msg.sender == request.user %}own-message{% else %}other-message{% endif %}" data-message-id="{{ msg.pk }}">
                             <img src="{{ msg.sender.portal.avatar.url }}" alt="Avatar" class="avatar">
-                            <div class="message-bubble bg-primary border border-light text-dark">
+                            <div class="message-bubble {% if msg.sender == request.user %}own-msg{% else %}other-msg{% endif %} bg-primary border border-light text-dark" data-message-id="{{ msg.pk }}">
                                 <div class="message-header">
                                     {{ msg.sender.username }}
                                 </div>
-                                <p>{{ msg.content }}<span class="timestamp d-flex">{{ msg.date|date:"H:i" }}</span></p>
+                                <p><span class="content-message" data-message-id="{{ msg.pk }}">{{ msg.content }}</span><span class="timestamp d-flex">{{ msg.date|date:"H:i" }}</span></p>
                             </div>
                         </div>
                     {% endfor %}
@@ -48,6 +67,13 @@
                     <input class="bg-light" type="text" id="id_message_send_input" placeholder="Type a message..." />
                     <button id="id_message_send_button">
                         <i class="bi bi-send"></i>
+                    </button>                    
+                </div>
+                
+                <div class="chat-edit-container" style="display: none;">
+                    <input class="bg-light" type="text" id="id_message_edit_input" placeholder="Type a message..." />
+                    <button id="id_message_edit_button">
+                        <i class="bi bi-pencil"></i>
                     </button>
                 </div>
             </div>
