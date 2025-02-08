@@ -1,5 +1,13 @@
+#file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+}
+
 .chat-container {
-    width: 70%;
+    width: 100%;
+    height: 100%;
     margin: auto;
     padding: 10px;
     border-radius: 10px;
@@ -13,7 +21,14 @@
     border-radius: 10px;
     width: 90%;
     margin: auto;
-    padding: 25px;
+    padding: 15px;
+    text-align: left;
+}
+
+.list-msg {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .chat-box {
@@ -22,9 +37,25 @@
     flex-direction: column;
     border-radius: 10px;
     padding: 15px;
-    max-height: 80vh;
+    height: 98vh;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-options {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    width: 200px;
+}
+
+.contextmenu-button {
+    color: black;
+    width: 100%;
+}
+
+.contextmenu-button:hover {
+    background-color: black;
 }
 
 .messages-container {
@@ -38,7 +69,8 @@
 .chat-message {
     display: flex;
     align-items: flex-start;
-    margin: 10px 0;
+    margin: 5px 0;
+    margin-bottom: 0;
     position: relative;
 }
 
@@ -51,12 +83,16 @@
     border-top-right-radius: 0;
 }
 
-.own-message .avatar {
-    margin-left: 10px;
-}
-
 .other-message .message-bubble {
     border-top-left-radius: 0;
+}
+
+.own-message .avatar {
+    margin-left: 5px;
+}
+
+.other-message .avatar {
+    margin-right: 5px;
 }
 
 .avatar {
@@ -68,12 +104,31 @@
 
 .message-bubble {
     max-width: 70%;
-    padding: 2px 15px;
+    padding: 2px 7.5px;
+    padding-bottom: 0px;
     border-radius: 20px;
     position: relative;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     word-wrap: break-word;
     max-width: 40%;
+}
+
+.message-bubble img {
+    border-radius: 10px;
+}
+
+.message-bubble p {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.own-message .message-bubble p {
+    margin-right: 5px;
+}
+
+.other-message .message-bubble p {
+    margin-left: 5px;
 }
 
 .message-header {
@@ -96,6 +151,31 @@
     float: left;
 }
 
+.file-item {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.file-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.file-item span {
+    font-size: 14px;
+}
+
+.remove-file {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+
 .chat-input-container {
     display: flex;
     padding: 10px;
@@ -111,7 +191,38 @@
     font-size: 14px;
 }
 
-.chat-input-container button {
+.chat-message-send-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-message-image-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.chat-edit-container {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-edit-container input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-edit-container button {
     border: none;
     padding: 10px 15px;
     border-radius: 5px;

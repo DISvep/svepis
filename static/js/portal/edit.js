@@ -55,19 +55,18 @@ function makeDraggable(widget) {
         
         const widgetRect = widget.getBoundingClientRect();
         
+        console.log(newLeft + widgetRect.width, containerRect.width - widgetRect.width);
+        
         if (newLeft < 0) {
             newLeft = 0;
-            console.log('LEFT');
         } else if (newLeft + widgetRect.width > containerRect.width) {
             newLeft = containerRect.width - widgetRect.width;
-            console.log('RIGHT');
         }
         
         if (newTop < 0) {
             newTop = 0;
-            console.log("TOP");
-        } else if (newTop + widgetRect.height > 500) {
-            newTop = 500 - widgetRect.height;
+        } else if (newTop + widgetRect.height > 225) {
+            newTop = 225 - widgetRect.height;
         }
         
         widget.style.top = newTop + 'px'

@@ -24,9 +24,20 @@ class WidgetUpdatePositionView(LoginRequiredMixin, View):
         widget = get_object_or_404(Widget, id=widget_id, user=request.user)
         try:
             data = request.POST
-            widget.x_position = data.get('x_position', widget.x_position)
-            widget.y_position = data.get('y_position', widget.y_position)
+            
+            x = int(data.get('x_position', widget.x_position))
+            y = int(data.get('y_position', widget.y_position))
+            
+            widget.x_position = x
+            widget.y_position = y
+            
+            # print(x, y)
+            # if not 0 <= x <= 748 or not 0 <= y <= 225:
+            #     print('bad request')
+            #     return JsonResponse({'success': False}, status=400)
+            
             widget.save()
+            
             return JsonResponse({'success': True})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
