@@ -59,6 +59,60 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendButton = document.getElementById("id_message_send_button");
     const editInput = document.getElementById('id_message_edit_input');
     const editButton = document.getElementById('id_message_edit_button');
+    const imageButton = document.getElementById('id_message_image_button');
+    const imageInput = document.getElementById('id_message_image_input');
+    
+    let selectedImage = null;
+    
+    imageButton.addEventListener('click', () => {
+        imageInput.click();
+    });
+    
+    imageInput.addEventListener("change", (event) => {
+        const files = Array.from(event.target.files);
+        const filePreview = document.getElementById('file-preview');
+        
+        filePreview.innerHTML = '';
+        selectedImage = null;
+        
+        files.forEach((file, index) => {
+            if (!file.type.startsWith('image/')) {
+                console.warn(`Файл ${file.name} не является изображением и не будет добавлен.`);
+                return;
+            }
+    
+            const fileItem = document.createElement('div');
+            fileItem.classList.add('file-item');
+    
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            fileItem.appendChild(img);
+    
+            const fileName = document.createElement('span');
+            fileName.textContent = file.name;
+            fileItem.appendChild(fileName);
+    
+            const removeBtn = document.createElement('span');
+            removeBtn.textContent = '✖';
+            removeBtn.classList.add('remove-file');
+            removeBtn.addEventListener('click', () => {
+                fileItem.remove();
+                selectedImage = null;
+                imageInput.value = '';
+            });
+    
+            fileItem.appendChild(removeBtn);
+            filePreview.appendChild(fileItem);
+    
+            if (!selectedImage) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    selectedImage = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 
     addContextMenu();
     
@@ -77,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (data.type === "edit_message") {
             updateMessage(data.message_id, data.new_content);
         } else {
-            addMessage(data.username, data.message, data.avatar, data.message_id, data.username === user_username ? false : true);
+            addMessage(data.username, data.message, data.avatar, data.message_id, data.image_url, data.username === user_username ? false : true);
         }
     };
 
@@ -97,16 +151,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function sendMessage() {
         const message = messageInput.value.trim();
-        if (!message) return;
+        if (!message && !selectedImage) return;
 
         chatSocket.send(JSON.stringify({
             'type': 'send_message',
             'message': message,
+            'image': selectedImage,
             'username': user_username,
             'avatar': avatar_url
         }));
         
         messageInput.value = "";
+        selectedImage = null;
+        document.getElementById('file-preview').innerHTML = '';
     }
     
     function editMessage() {
@@ -129,11 +186,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }));
     }
 
-    function addMessage(username, message, avatar, pk, isIncoming) {
+    function addMessage(username, message, avatar, pk, imageURL, isIncoming) {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("chat-message", isIncoming ? "other-message" : "own-message");
         messageDiv.setAttribute('data-message-id', pk);
-        console.log(pk);
 
         messageDiv.innerHTML = `
             <img src="${avatar}" alt="Avatar" class="avatar">
@@ -141,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="message-header">
                     ${username}
                 </div>
+                ${ imageURL ? '<img src="' + imageURL + '" style="max-width: 100%;">' : '' }
                 <p><span class="content-message" data-message-id="${pk}">${escapeHTML(message)}</span><span class="timestamp d-flex">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></p>
             </div>
         `;

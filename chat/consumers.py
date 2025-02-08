@@ -1,7 +1,10 @@
-import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.core.files.base import ContentFile
 from asgiref.sync import sync_to_async
 from .models import Chat, Message
+import base64
+import json
+import uuid
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -36,16 +39,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
         else:
             sender = self.scope['user']
             message = data['message']
+            image = data.get('image', None)
 
             room = await self.get_room(self.room_pk)
             msg = await self.save_message(room, sender, message)
             avatar_url = await self.get_avatar(sender)
+            
+            if image:
+                format, imgstr = image.split(';base64,')
+                ext = format.split('/')[-1]
+                image_content = ContentFile(base64.b64decode(imgstr))
+                await sync_to_async(msg.image.save)(f"{uuid.uuid4()}.{ext}", image_content)
+            
+            await sync_to_async(msg.save)()
 
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     'type': 'chat_message',
                     'message': msg.content,
+                    "image_url": msg.image.url if msg.image else None,
                     'username': sender.username,
                     'date': str(msg.date),
                     'avatar': avatar_url,
@@ -59,6 +72,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             'message': event['message'],
+            'image_url': event['image_url'],
             'username': event['username'],
             'date': event['date'],
             'avatar': event['avatar'],
@@ -79,7 +93,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     'type': 'update_chat_list',
                     'chat_id': self.room_pk,
-                    'last_message': last_message.content,
+                    'last_message': last_message,
                     'chat_name': chat_name,
                     'chat_avatar': chat_avatar
                 }
@@ -130,9 +144,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message_id = event['message_id']
         user = self.scope['user']
 
-        message = sync_to_async(Message.objects.get)(pk=message_id)
+        message = await sync_to_async(Message.objects.get)(pk=message_id)
+        sender = await sync_to_async(lambda: message.sender)()
         
-        if message.sender != user:
+        if sender != user:
             return
         
         await sync_to_async(message.delete)()

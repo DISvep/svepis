@@ -1,3 +1,10 @@
+#file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+}
+
 .chat-container {
     width: 100%;
     height: 100%;
@@ -62,7 +69,8 @@
 .chat-message {
     display: flex;
     align-items: flex-start;
-    margin: 10px 0;
+    margin: 5px 0;
+    margin-bottom: 0;
     position: relative;
 }
 
@@ -75,12 +83,16 @@
     border-top-right-radius: 0;
 }
 
-.own-message .avatar {
-    margin-left: 10px;
-}
-
 .other-message .message-bubble {
     border-top-left-radius: 0;
+}
+
+.own-message .avatar {
+    margin-left: 5px;
+}
+
+.other-message .avatar {
+    margin-right: 5px;
 }
 
 .avatar {
@@ -92,12 +104,31 @@
 
 .message-bubble {
     max-width: 70%;
-    padding: 2px 15px;
+    padding: 2px 7.5px;
+    padding-bottom: 0px;
     border-radius: 20px;
     position: relative;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     word-wrap: break-word;
     max-width: 40%;
+}
+
+.message-bubble img {
+    border-radius: 10px;
+}
+
+.message-bubble p {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.own-message .message-bubble p {
+    margin-right: 5px;
+}
+
+.other-message .message-bubble p {
+    margin-left: 5px;
 }
 
 .message-header {
@@ -120,6 +151,31 @@
     float: left;
 }
 
+.file-item {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.file-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.file-item span {
+    font-size: 14px;
+}
+
+.remove-file {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+
 .chat-input-container {
     display: flex;
     padding: 10px;
@@ -135,11 +191,19 @@
     font-size: 14px;
 }
 
-.chat-input-container button {
+.chat-message-send-button {
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-message-image-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
     cursor: pointer;
 }
 

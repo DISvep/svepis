@@ -98,7 +98,7 @@
                                     <div class="col-auto">
                                         <form method="post" action="{% url 'send-request' portal.user.pk %}">
                                             {% csrf_token %}
-                                            <button class="btn btn-info" type="submit">{% if requestSent %}Cancel Request{% else %}Add Friend{% endif %}</button>
+                                            <button class="btn btn-sm btn-info" type="submit">{% if requestSent %}Cancel Request{% else %}Add Friend{% endif %}</button>
                                         </form>
                                     </div>
                                 {% endif %}

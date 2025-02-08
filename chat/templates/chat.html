@@ -57,15 +57,21 @@
                                 <div class="message-header">
                                     {{ msg.sender.username }}
                                 </div>
+                                {% if msg.image %}<img src="{{ msg.image.url }}" style="max-width: 100%;">{% endif %}
                                 <p><span class="content-message" data-message-id="{{ msg.pk }}">{{ msg.content }}</span><span class="timestamp d-flex">{{ msg.date|date:"H:i" }}</span></p>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-            
+                
+                <div id="file-preview"></div>
                 <div class="chat-input-container">
+                    <input type="file" id="id_message_image_input" style="display: none;" accept="image/*">
+                    <button class="chat-message-image-button" id="id_message_image_button">
+                        <i class="bi bi-card-image"></i>
+                    </button>
                     <input class="bg-light" type="text" id="id_message_send_input" placeholder="Type a message..." />
-                    <button id="id_message_send_button">
+                    <button class="chat-message-send-button" id="id_message_send_button">
                         <i class="bi bi-send"></i>
                     </button>                    
                 </div>
