@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'widget',
     'subscription',
     'chat',
+    'news',
 ]
 
 MIDDLEWARE = [

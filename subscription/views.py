@@ -55,7 +55,7 @@ class AcceptRequestView(LoginRequiredMixin, View):
             ).first()
             if existing_request:
                 existing_request.accept()
-        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': receiver.portal.pk}))
+        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': sender.portal.pk}))
 
 
 class CancelRequestView(LoginRequiredMixin, View):
@@ -67,5 +67,5 @@ class CancelRequestView(LoginRequiredMixin, View):
             ).first()
             if existing_request:
                 existing_request.cancel()
-        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': receiver.portal.pk}))
+        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': sender.portal.pk}))
 

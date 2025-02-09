@@ -10,7 +10,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="nav-link sidebar-link">
+            <a href="{% url 'discovery' %}" class="nav-link sidebar-link">
                 <i class="fs-5 bi bi-compass"></i><span class="ms-2 fs-5 d-none d-sm-inline">Discovery</span> </a>
         </li>
         <li class="sidebar-item">
@@ -42,6 +42,9 @@
                 <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
+                <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#subscriptionsModal" class="dropdown-item btn btn-primary">Subscriptions</button>
+                </li>
                 <li>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#friendsModal" class="dropdown-item btn btn-primary">Friends</button>
                 </li>

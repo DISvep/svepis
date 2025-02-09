@@ -83,6 +83,7 @@
                 {% for post, reactions in PostReactions.items %}
                     {% include 'post.html' with display='block' pk=post.pk user=post.user current_user=current_user date=post.date content=post.content reactions=reactions %}
                 {% endfor %}
+                <script src="{% static 'js/reaction/add_reaction.js' %}"></script>
             </div>
         </div>
     </div>

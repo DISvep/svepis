@@ -14,7 +14,7 @@ class IndexView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Announcements'] = post.models.Announcement.objects.all().order_by('-date')
+        context['Announcements'] = post.models.Announcement.objects.all()
         
         return context
 
@@ -22,7 +22,7 @@ class IndexView(TemplateView):
 def load_more_announcements(request):
     offset = int(request.GET.get('offset', 0))
     limit = 1
-    announcements = post.models.Announcement.objects.all().order_by('-date')[offset:offset + limit]
+    announcements = post.models.Announcement.objects.all()[offset:offset + limit]
     data = [
         {'pk': a.pk} for a in announcements
     ]

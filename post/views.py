@@ -39,9 +39,6 @@ class PostList(ListView):
         
         return context
     
-    def get_queryset(self):
-        return Post.objects.all().order_by('-date')
-    
 
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
