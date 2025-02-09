@@ -76,7 +76,7 @@ function makeDraggable(widget) {
     
     function mouseUp(e) {
         let x = parseInt(widget.style.left);
-        let y = parseInt(widget.style.top);
+        let y = parseInt(widget.style.top); 
         updatePosition(widget.dataset.id, x, y);
         document.removeEventListener('mousemove', mouseMove);
     }

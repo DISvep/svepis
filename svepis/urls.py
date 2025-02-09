@@ -28,6 +28,7 @@ urlpatterns = [
     path('portal/', include('portal.urls')),
     path('widget/', include('widget.urls')),
     path('subscription/', include('subscription.urls')),
-    path('chat/', include('chat.urls'))
+    path('chat/', include('chat.urls')),
+    path('discovery/', include('news.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
