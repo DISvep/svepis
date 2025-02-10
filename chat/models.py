@@ -92,5 +92,4 @@ class Message(models.Model):
     
     def have_image(self):
         have = True if self.image else False
-        print(have, self.image)
         return True if self.image else False

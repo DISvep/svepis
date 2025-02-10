@@ -1,0 +1,231 @@
+#file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.chat-container {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat-list {
+    border-radius: 10px;
+}
+
+.chat-el {
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+    padding: 15px;
+    text-align: left;
+}
+
+.list-msg {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.chat-box {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 15px;
+    height: 98vh;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-options {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    width: 200px;
+}
+
+.contextmenu-button {
+    color: black;
+    width: 100%;
+}
+
+.contextmenu-button:hover {
+    background-color: black;
+}
+
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    margin: 5px 0;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.own-message {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.own-message .message-bubble {
+    border-top-right-radius: 0;
+}
+
+.other-message .message-bubble {
+    border-top-left-radius: 0;
+}
+
+.own-message .avatar {
+    margin-left: 5px;
+}
+
+.other-message .avatar {
+    margin-right: 5px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message-bubble {
+    max-width: 70%;
+    padding: 2px 7.5px;
+    padding-bottom: 0px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+    max-width: 40%;
+}
+
+.message-bubble img {
+    border-radius: 10px;
+}
+
+.message-bubble p {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.own-message .message-bubble p {
+    margin-right: 5px;
+}
+
+.other-message .message-bubble p {
+    margin-left: 5px;
+}
+
+.message-header {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.timestamp {
+    font-size: 12px;
+    opacity: 0.7;
+    float: right;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+
+.own-message .timestamp {
+    order: -1;
+    margin-left: 0;
+    margin-right: 10px;
+    float: left;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.file-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.file-item span {
+    font-size: 14px;
+}
+
+.remove-file {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-container input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-message-send-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-message-image-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.chat-edit-container {
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-edit-container input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-edit-container button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}

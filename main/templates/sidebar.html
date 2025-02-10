@@ -39,7 +39,7 @@
         {% if user.is_authenticated %}            
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{user.portal.avatar.url}}" width="28" height="28" class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+                <span class="d-none text-dark d-sm-inline mx-1">{{user.username}}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
                 <li>
