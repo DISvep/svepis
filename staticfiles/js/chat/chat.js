@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         messageDiv.innerHTML = `
             <img src="${avatar}" alt="Avatar" class="avatar">
-            <div class="message-bubble ${isIncoming ? 'other-msg' : 'own-msg'} bg-info border border-dark text-dark" data-message-id="${pk}">
+            <div class="message-bubble ${isIncoming ? 'other-msg' : 'own-msg'} bg-primary border border-light text-dark" data-message-id="${pk}">
                 <div class="message-header">
                     ${username}
                 </div>

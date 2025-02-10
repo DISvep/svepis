@@ -1,7 +1,7 @@
 <div style="display: {{display}};" id="announcement_{{pk}}">
-    <div class="card fs-4 bg-danger shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%;">
+    <div class="card fs-4 bg-success shadow {% if announcement %}border border-warning{% endif %} message-card" style="border-radius: 25px; width: 100%;">
         <div class="card-body">
-            <div class="card-title text-light fs-5">
+            <div class="card-title text-black fs-5">
                 <div class="row">
                     <a href="{% url 'portal' user.portal.pk %}">
                         <div class="col-auto">
@@ -30,7 +30,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="card-text text-light ms-5">
+            <div class="card-text text-dark ms-5">
                 {{content|escape}}
             </div>
         </div>

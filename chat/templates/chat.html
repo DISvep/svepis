@@ -7,14 +7,14 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="message-options card p-2" id="message-options">
+    <div class="message-options card p-2 shadow" id="message-options">
         <button class="btn contextmenu-button" data-bs-toggle="button" id="edit-message">Edit</button>
         <hr>
         <button class="btn contextmenu-button" data-bs-toggle="button" id="delete-message">Delete</button>
     </div>
     <div class="row chat-container bg-info">
-        <div class="col-3 chat-list bg-warning">
-            <div class="bg-warning p-2">
+        <div class="col-3 chat-list bg-success">
+            <div class="bg-secondary p-2 mt-2" style="border-radius: 10px;">
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1">@</span>
                     <input type="text" class="form-control" id="search-input" placeholder="Search username..." aria-label="username">
@@ -22,7 +22,7 @@
                 <div class="list-group" id="results"></div>
             </div>
             
-            <script src="{% static 'js/chat/user_search.js' %}"></script> 
+            <script src="{% static 'js/chat/user_search.js' %}"></script>
             
             <div class="row">
                 {% for chat, values in chats.items %}
@@ -49,11 +49,11 @@
         <div class="col-9">
             <div class="chat-box bg-primary">
                 <h3 class="text-dark">{{ receiver }}</h3>
-                <div class="messages-container bg-warning" id="messagesContainer">
+                <div class="messages-container bg-success" id="messagesContainer">
                     {% for msg in messages %}
                         <div class="chat-message {% if msg.sender == request.user %}own-message{% else %}other-message{% endif %}" data-message-id="{{ msg.pk }}">
                             <img src="{{ msg.sender.portal.avatar.url }}" alt="Avatar" class="avatar">
-                            <div class="message-bubble {% if msg.sender == request.user %}own-msg{% else %}other-msg{% endif %} bg-primary border border-light text-dark" data-message-id="{{ msg.pk }}">
+                            <div class="message-bubble {% if msg.sender == request.user %}own-msg{% else %}other-msg{% endif %} bg-info border border-dark text-dark" data-message-id="{{ msg.pk }}">
                                 <div class="message-header">
                                     {{ msg.sender.username }}
                                 </div>
