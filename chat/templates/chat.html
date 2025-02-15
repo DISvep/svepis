@@ -7,26 +7,126 @@
 {% endblock title %}
 
 {% block content %}
+    <div class="modal fade" id="addGroupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        Add Group
+                    </div>
+                </div>
+                <div class="modal-body bg-secondary">
+                    <form method="post" action="{% url 'create-group' %}" enctype="multipart/form-data" autocomplete="off">
+                        {% csrf_token %}
+                        {{ groupForm.as_p }}
+                        <button type="submit" class="btn btn-success">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editGroupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        Edit Group
+                    </div>
+                </div>
+                <div class="modal-body bg-secondary">
+                    <form method="post" action="{% url 'edit-group' room.pk %}" enctype="multipart/form-data" autocomplete="off">
+                        {% csrf_token %}
+                        {{ editGroupForm.as_p }}
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var editModal = document.getElementById('editGroupModal');
+                                var nameInput = document.getElementById('editGroupName');
+                                
+                                editModal.addEventListener('show.bs.modal', function () {
+                                    nameInput.value = '{{ room.name }}';
+                                });
+                            });
+                        </script>
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </form>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addGroupMember" data-group-id="{{ room.pk }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <h5 class="text-center mt-2">Add Friends</h5>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon2">@</span>
+                    <input type="text" class="form-control" id="friends-input" placeholder="Search username..." aria-label="username">
+                </div>
+                <div class="list-group" id="resultsFriends"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="membersModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <h5>Group Members List</h5>
+                <ul class="list-group">
+                    {% for member in room.members.all %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-10">
+                                    {{ member }}
+                                </div>
+                                {% if current_user == room.groupchat.user %}
+                                    <div class="col">
+                                        <button class="btn text-primary" onclick="removeUserFromGroup({{member.pk}})">
+                                            <i class="bi bi-person-dash-fill"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>        
+    </div>
+
     <div class="message-options card p-2 shadow" id="message-options">
         <button class="btn contextmenu-button" data-bs-toggle="button" id="edit-message">Edit</button>
         <hr>
         <button class="btn contextmenu-button" data-bs-toggle="button" id="delete-message">Delete</button>
     </div>
+
     <div class="row chat-container bg-info">
-        <div class="col-3 chat-list bg-success">
-            <div class="bg-secondary p-2 mt-2" style="border-radius: 10px;">
-                <div class="input-group">
-                    <span class="input-group-text" id="basic-addon1">@</span>
-                    <input type="text" class="form-control" id="search-input" placeholder="Search username..." aria-label="username">
+        <div class="col-3 chat-list bg-info">
+            <div class="bg-secondary p-2 mt-2" style="border-radius: 10px; display: flex; padding: 10px;">
+                <div class="row">
+                    <div class="col-auto">   
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="text" class="form-control" id="search-input" placeholder="Search username..." aria-label="username">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addGroupModal" class="btn btn-primary ml-1"><i class="bi bi-people"></i></button>
+                    </div>
+                    <div class="col-12">
+                        <div class="list-group" id="results"></div>
+                    </div>
                 </div>
-                <div class="list-group" id="results"></div>
             </div>
             
             <script src="{% static 'js/chat/user_search.js' %}"></script>
             
-            <div class="row">
+            <div class="row" style="overflow-y: auto; max-height: 80vh;">
                 {% for chat, values in chats.items %}
-                    <a class="btn btn-primary mt-2 chat-el" href="{% url 'chat-page' values.2 %}" data-chat-id="{{ values.2 }}">
+                    <a class="btn {% if values.2 == room.pk %}btn-success{% else %}btn-primary{% endif %} mt-2 chat-el" href="{% url 'chat-page' values.2 %}" data-chat-id="{{ values.2 }}">
                         <div class="row">
                             <div class="col-3">
                                 <img src="{{ values.0 }}" width="56" height="56" class="rounded-circle">
@@ -48,16 +148,28 @@
         </div>
         <div class="col-9">
             <div class="chat-box bg-primary">
-                <h3 class="text-dark">{{ receiver }}</h3>
-                <div class="messages-container bg-success" id="messagesContainer">
+                <div class="row">
+                    <div class="col-auto">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#membersModal" class="btn" style="font-size: 30px;">{{ currentChatName }}</button>
+                    </div>
+                    {% if not room.private and current_user == room.groupchat.user %}
+                        <div class="col-1">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#editGroupModal"  class="btn btn-lg"><i class="bi bi-pencil"></i></button>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#addGroupMember"  class="btn btn-lg"><i class="bi bi-person-plus-fill"></i></button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="messages-container bg-info" id="messagesContainer">
                     {% for msg in messages %}
                         <div class="chat-message {% if msg.sender == request.user %}own-message{% else %}other-message{% endif %}" data-message-id="{{ msg.pk }}">
                             <img src="{{ msg.sender.portal.avatar.url }}" alt="Avatar" class="avatar">
-                            <div class="message-bubble {% if msg.sender == request.user %}own-msg{% else %}other-msg{% endif %} bg-info border border-dark text-dark" data-message-id="{{ msg.pk }}">
+                            <div class="message-bubble {% if msg.sender == request.user %}own-msg bg-info{% else %}other-msg bg-success{% endif %} border border-dark text-dark" data-message-id="{{ msg.pk }}">
                                 <div class="message-header">
                                     {{ msg.sender.username }}
                                 </div>
-                                {% if msg.image %}<img src="{{ msg.image.url }}" style="max-width: 100%;">{% endif %}
+                                {% if msg.image %}<img src="{{ msg.image.url }}">{% endif %}
                                 <p><span class="content-message" data-message-id="{{ msg.pk }}">{{ msg.content }}</span><span class="timestamp d-flex">{{ msg.date|date:"H:i" }}</span></p>
                             </div>
                         </div>

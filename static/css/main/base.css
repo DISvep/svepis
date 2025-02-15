@@ -1,18 +1,22 @@
 .sidebar {
     max-height: 100vh;
+    color: white;
 }
 
 .sidebar-content {
     width: 100%;
+    color: white;
 }
 
 .sidebar-item {
     width: 100%;
+    color: white;
 }
 
 .sidebar-link {
     width: 100%;
     justify-content: center;
+    color: white;
 }
 
 .sidebar-link:hover {

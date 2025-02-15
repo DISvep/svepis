@@ -13,12 +13,6 @@ from .models import Post
 
 
 # Create your views here.
-class PostDetail(DetailView):
-    model = Post
-    template_name = 'post_detail.html'
-    context_object_name = 'post'
-
-
 class PostList(ListView):
     model = Post
     template_name = 'post_list.html'

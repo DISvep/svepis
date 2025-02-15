@@ -9,24 +9,25 @@ class Chat(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     avatar = models.ImageField(upload_to='chat/avatar/', blank=True, null=True)
     members = models.ManyToManyField(User,  related_name="chats")
+    private = models.BooleanField(default=True)
 
     def get_title(self, current_user=None):
         if self.name:
             return self.name
 
         qs = self.members.all()
-        if current_user is not None:
+        if current_user is None:
+            return ', '.join(user.username for user in self.members.all()[:3]) + '...'
+        else:
             qs = qs.exclude(pk=current_user.pk)
 
         other = qs.first()
         if other:
             return other.username
-        
-        return ", ".join(user.username for user in self.members.all()[:3]) + "..."
     
     def get_avatar(self, current_user=None):
         if self.avatar:
-            return self.avatar
+            return self.avatar.url
         
         qs = self.members.all()
         if current_user is not None:
@@ -36,18 +37,17 @@ class Chat(models.Model):
         if other:
             return other.portal.avatar.url
         
-        return "portal/default-avatar.png"
+        return "/media/portal/default-avatar.png" if self.private else "/media/portal/default-group.png"
     
     def get_last_message(self):
         message = Message.objects.filter(room=self).latest('date')
         return ' '.join(('[image]' if message.have_image() else '', message.content if message.content else ''))
 
     def __str__(self):
-        return self.name if self.name else ", ".join(user.username for user in self.members.all())
+        return self.get_title()
 
 
 class PrivateChat(Chat):
-   
     class Meta:
         verbose_name = "Private chat"
         verbose_name_plural = "Private chats"
@@ -74,6 +74,17 @@ class PrivateChat(Chat):
     
     def __str__(self):
         return self.name or ", ".join(user.username for user in self.members.all())
+
+
+class GroupChat(Chat):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_groups')
+    
+    class Meta:
+        verbose_name = "Group chat"
+        verbose_name_plural = "Group chats"
+    
+    def __str__(self):
+        return self.name or ', '.join(user.username for user in self.members.all())
 
 
 class Message(models.Model):
