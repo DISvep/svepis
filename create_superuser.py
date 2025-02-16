@@ -9,9 +9,13 @@ password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
 
 if not User.objects.filter(username=username).exists():
     superuser = User.objects.create_superuser(username=username, email=email, password=password)
+    
     Portal.objects.create(user=superuser)
     FriendList.objects.create(user=superuser)
     SubscriptionList.objects.create(user=superuser)
+    
+    superuser.portal.save()
+    
     print("Superuser created")
 else:
     print("Superuser already exists")
