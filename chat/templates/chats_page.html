@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{chat.name}}</title>
+    <link rel="stylesheet" href="{% static 'css/chat/chat.css' %}">
+{% endblock title %}
+
+{% block content %}
+    <div class="row chat-container bg-info">
+        <div class="col-3 chat-list bg-info">
+            <div class="bg-secondary p-2 mt-2" style="border-radius: 10px;">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input type="text" class="form-control" id="search-input" placeholder="Search username..." aria-label="username">
+                </div>
+                <div class="list-group" id="results"></div>
+            </div>
+            
+            <script src="{% static 'js/chat/user_search.js' %}"></script> 
+            
+            <div class="row">
+                {% for chat, values in chats.items %}
+                    <a class="btn btn-primary mt-2 chat-el" href="{% url 'chat-page' values.2 %}" data-chat-id="{{ values.2 }}">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="{{ values.0 }}" width="56" height="56" class="rounded-circle">
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ chat }}
+                                    </div>
+                                    <div class="col-12 list-msg">
+                                        {{ values.1 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="chat-box bg-primary">
+                <h3 class="text-dark">Chats</h3>
+                <div class="messages-container bg-info text-dark" id="messagesContainer">
+                    <h1 class="display-1 text-center">Select Chat</h1>
+                </div>
+            
+                <div class="chat-input-container">
+                    <input type="file" id="id_message_image_input" style="display: none;" accept="image/*" disabled>
+                    <button class="chat-message-image-button" id="id_message_image_button">
+                        <i class="bi bi-card-image"></i>
+                    </button>
+                    <input class="bg-light" type="text" id="id_message_send_input" placeholder="Type a message..." disabled/>
+                    <button class="chat-message-send-button" id="id_message_send_button" disabled>
+                        <i class="bi bi-send"></i>
+                    </button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roomPk = "0";
+        const user_username = "{{ current_user.username }}";
+        const avatar_url = "{{ current_user.portal.avatar.url }}";
+    </script>
+    <script src="{% static 'js/chat/chat.js' %}"></script>
+{% endblock content %}

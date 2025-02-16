@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{portal}}</title>
+    <style>
+        .widget {
+            position: absolute;
+            user-select: none;
+        }
+    </style>
+{% endblock title %}
+
+{% block content %}
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="{% url 'add-widget' %}" enctype="multipart/form-data" id="widgetAddForm">
+                    {% csrf_token %}
+                    {{ widgetForm.as_p }}
+                    <button class="btn btn-primary" type="submit" id="saveWidgetButton">Save</button>
+                </form>
+                <script src="{% static 'js/portal/add_widget.js' %}"></script>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <select class="form-control" id="widgetChoice">
+                    {% for widget in widgets %}
+                        <option value="{{widget.id}}">
+                            {{widget}} {% if widget.widget_type == "text" %}({{widget.content}}){% else %}({{widget.image.name}}){% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+                <label for="width">Width:</label>
+                <input class="form-control" type="number" id="width" min="10" max="600">
+                <label for="height">Height:</label>
+                <input class="form-control" type="number" id="height" min="10" max="600">
+                <label for="z-index">Z-index:</label>
+                <input class="form-control" type="number" id="z-index" min="0">
+                <button class="btn btn-primary" type="submit" id="editSaveButton">Save</button>
+                <form method="post" action="" id="deleteWidgetForm">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" id="deleteWidgetButton" type="submit">Delete</button>
+                </form>
+                <script>
+                    const csrf_token = "{{ csrf_token }}";
+                </script>
+                <script src="{% static 'js/portal/edit_widget.js' %}"></script>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <img src="{{portal.banner.url}}" class="card-img-top" width="1400" height="350" style="filter: brightness(50%);">
+                    <div class="card-body">
+                        <img src="{{portal.avatar.url}}" class="rounded-circle" width="128" height="128" style="position: absolute;">
+                        <h2 class="card-title text-right">{{portal.user.username}} Portal</h2>
+                        {% if current_user != portal.user %}
+                            <div class="row" style="margin: 0 120px;">
+                                <div class="col-auto">
+                                    <form method="post" action="{% url 'subscribe' portal.user.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-sm btn-primary" type="submit">{% if subscription %}Unsubscribe{% else %}Subscribe{% endif %}</button>
+                                    </form>
+                                </div>
+                                {% if friends %}
+                                    <div class="col-auto">
+                                        <form method="post" action="{% url 'delete-friend' portal.user.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-sm btn-danger" type="submit">Delete Friend</button>
+                                        </form>
+                                    </div>
+                                {% elif acceptSent %}
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <form method="post" action="{% url 'accept' portal.user.pk %}">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-sm btn-success" type="submit"><i class="bi bi-check-lg"></i></button>
+                                                </form>
+                                            </div>
+                                            <div class="col-auto">
+                                                <form method="post" action="{% url 'cancel' portal.user.pk %}">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-sm btn-secondary" type="submit"><i class="bi bi-x-lg"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="col-auto">
+                                        <form method="post" action="{% url 'send-request' portal.user.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-sm btn-info" type="submit">{% if requestSent %}Cancel Request{% else %}Add Friend{% endif %}</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="margin: 60px 0 0 0;">
+                <h5>About {{portal.user.username}}:</h5>
+                {% if current_user == portal.user %}
+                    <a href="{% url 'portal-create' %}">Edit Profile</a>
+                {% endif %}
+                <br>
+                <p>Friends: {{portal.user.friend_list.friends.count}}</p>
+                <p>Subscribers: {{portal.user.subscription_list.subscribers.count}}</p>
+                <p>Joined at: {{portal.joined_at}}</p>
+                <p>{{portal.about}}</p>
+            </div>
+        </div>
+        <script>
+            const current_user = "{{ current_user }}";
+            const portal_user = "{{ portal.user }}";
+        </script>
+        <script src="{% static 'js/portal/edit.js' %}"></script>
+        {% if current_user == portal.user %}
+            <button id="edit" type="button" class="btn btn-secondary">Edit Portal</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Widget</button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal">Edit Widget</button>
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                {% for widget in widgets %}
+                    <div class="card widget text-dark" data-id="{{ widget.id }}" style="z-index: {{widget.z_index}}; left: {{widget.x_position}}px; top: {{widget.y_position}}px;">
+                        {% if widget.widget_type == 'text' %}
+                            {{ widget.content }}
+                        {% elif widget.widget_type == 'image' %}
+                            <img src="{{ widget.image.url }}" alt="Widget Image" width="{{widget.width}}" height="{{widget.height}}" style="pointer-events: none;">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

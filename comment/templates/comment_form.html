@@ -1,0 +1,17 @@
+{% load static %}
+<form method="post" action="{% url direction pk %}">
+    {% csrf_token %}
+    <div class="border rounded-3" style="overflow-y: hidden; padding: 10px">
+        {{ comment_form.content }}
+        <input type="hidden" name="post_pk" value="{{pk}}">
+        <button id="submit_button" type="submit" class="btn btn-primary btn-sm rounded-5 mt-1" style="float: right; display: none">Comment</button>
+        <button id="cancel_button" type="reset" onclick="resetComment()" class="btn btn-secondary btn-sm rounded-5 mt-1 me-1" style="float: right; display: none">Cancel</button>
+    </div>
+
+    <script>
+        var textarea = document.getElementById("commentAdd");
+        var submit = document.getElementById("submit_button");
+        var cancel = document.getElementById("cancel_button");
+    </script>
+    <script src="{% static 'js/scaled_input.js' %}"></script>
+</form>

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ video.name }}</title>
+{% endblock title %}
+
+{% block content %}
+    <script>
+        const video = true;
+    </script>
+    <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" id="deleteForm" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <script src="{% static 'js/comment/delete.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateModalLabel">Update Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="updateForm" action="">
+                        {% csrf_token %}
+                        <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your comment..." name="content"></textarea>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                    <script src="{% static 'js/comment/update.js' %}"></script>
+                    <script>
+                        var textarea = document.getElementById("areaUpdate");
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ml-2 mt-2">
+        <div class="row">
+            <div class="col-12">
+                <video src="{{video.video.url}}" poster="{{video.preview.url}}" width="1200" controls></video>
+            </div>
+            <div class="col-12">
+                <h4><b>{{ video.name }}</b></h4>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-auto text-white">
+                        <a href="{% url 'portal' user.portal.pk %}" class="d-flex" style="text-decoration: none;">
+                            <img src="{{video.user.portal.avatar.url}}" width="60" height="60">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="mt-2 text-white">{{video.user.username}}</h5>
+                                </div>
+                                <div class="col-12 mb-2 text-secondary">
+                                    {{ video.user.subscription_list.subscribers.count }} subscribers
+                                </div>
+                            </div>
+                            
+                        </a>
+                    </div>
+                    {% if current_user != video.user %}
+                        <div class="col mt-2">
+                            <form method="post" action="{% url 'subscribe' video.user.pk %}?next={{ request.path }}">
+                                {% csrf_token %}
+                                <button class="btn btn-sm btn-primary" type="submit">{% if video.user in current_user.subscription_list.subscriptions.all %}Unsubscribe{% else %}Subscribe{% endif %}</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-auto">
+                                <form action="{% url 'like-video' video.pk %}" method="post" style="margin: 0;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-link btn-lg" type="submit" name="video_id" value="{{video.id}}">
+                                        <span class="d-none d-sm-inline-block">
+                                            {% if current_user in video.likes.all %}
+                                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-hand-thumbs-up"></i>
+                                            {% endif %}
+                                            {{video.likes.count}}
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-auto">
+                                <form action="{% url 'dislike-video' video.pk %}" method="post" style="margin: 0;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-link btn-lg" type="submit" name="video_id" value="{{video.id}}">
+                                        <span class="d-none d-sm-inline-block">
+                                            {% if current_user in video.dislikes.all %}
+                                                <i class="bi bi-hand-thumbs-down-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-hand-thumbs-down"></i>
+                                            {% endif %}
+                                            {{video.dislikes.count}}
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                {{ video.date|timesince }} ago
+            </div>
+            <div class="col-12">
+                {{ video.description }}
+            </div>
+            <div class="col-8">
+                <h5>{{video.video_comments.count}} comments</h5>
+                {% if current_user.is_authenticated %}
+                    {% include 'comment_form.html' with pk=video.pk comment_form=comment_form direction='video-comment-create' %}
+                {% endif %}
+                <div class="row">
+                    
+                    {% for comment in video.video_comments.all %}
+                        <div class="col-12">
+                            {% include 'post.html' with detail=True comment=True display='block' pk=comment.pk user=comment.user current_user=current_user date=comment.date content=comment.content %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  
+    
+{% endblock content %}

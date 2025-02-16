@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{post.user}}'s post comments</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" id="deleteForm" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <script src="{% static 'js/comment/delete.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateModalLabel">Update Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="updateForm" action="">
+                        {% csrf_token %}
+                        <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your comment..." name="content"></textarea>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                    <script src="{% static 'js/comment/update.js' %}"></script>
+                    <script>
+                        var textarea = document.getElementById("areaUpdate");
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3 border p-5">
+        <div class="row">
+            <div class="col">
+                {% include 'post.html' with detail=True display='block' pk=post.pk user=post.user current_user=current_user date=post.date content=post.content reactions=reactions %}
+            </div>
+        </div>
+        <br>
+        {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col">
+                    {% include 'comment_form.html' with pk=post.pk comment_form=comment_form direction='comment-create' %}
+                </div>
+            </div>
+            <br>
+        {% endif %}
+        <div class="row">
+            {% for comment in post.comments.all %}
+                <div class="col-12">
+                    {% include 'post.html' with detail=True comment=True display='block' pk=comment.pk user=comment.user current_user=current_user date=comment.date content=comment.content %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

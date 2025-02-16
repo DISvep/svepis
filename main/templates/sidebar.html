@@ -1,0 +1,77 @@
+{% load static %}
+<div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar" style="position: fixed;">
+    <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span class="fs-3">Svepis</span>
+    </a>
+    <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start sidebar-content">
+        <li class="sidebar-item">
+            <a href="/" class="nav-link sidebar-link active">
+                <i class="fs-5 bi-house"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Home</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'discovery' %}" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-compass"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Discovery</span> </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'post-list' %}" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-book"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Posts</span> </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'chats' %}" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-chat-left"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Chats</span></a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-newspaper"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Channels</span></a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-music-note"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Music</span></a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'main-video' %}" class="nav-link sidebar-link">
+                <i class="fs-5 bi bi-play"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Videos</span></a>
+        </li>
+        <script src="{% static 'js/main/sidebar.js' %}"></script>
+    </ul>
+    <div class="dropdown py-sm-4 fs-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
+        {% if user.is_authenticated %}            
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{user.portal.avatar.url}}" width="28" height="28" class="rounded-circle">
+                <span class="d-none text-dark d-sm-inline mx-1">{{user.username}}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
+                <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#subscriptionsModal" class="dropdown-item btn btn-primary">Subscriptions</button>
+                </li>
+                <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#friendsModal" class="dropdown-item btn btn-primary">Friends</button>
+                </li>
+                <li>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#requestModal" class="dropdown-item btn btn-primary">Requests</button>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item btn btn-primary" href="{% url 'portal' user.portal.pk %}">Portal</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="dropdown-item">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        {% else %}
+            <div class="d-flex ms-auto">
+                <a class="btn btn-primary btn-lg rounded-pill me-2" href="/login/"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                <a class="btn btn-outline-primary btn-lg rounded-pill" href="/register/"><i class="bi bi-box-arrow-in-right"></i> Register</a>
+            </div>
+        {% endif %}
+    </div>
+</div>

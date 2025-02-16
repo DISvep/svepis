@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Discovery</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3 border p-5">
+        <h2>Suggested users</h2>
+        <div class="container">
+            <div class="row">
+                {% for user in SuggestedUsers %}
+                    {% if user %}
+                        <div class="col-2 mt-2 ml-2">
+                            <a href="{% url 'portal' user.portal.pk %}">
+                                <div class="card rounded-5 text-center">
+                                    <div class="card-body">
+                                        <img src="{{ user.portal.avatar.url }}" class="rounded-circle" width="100" height="100">
+                                        <div class="card-text">
+                                            {{ user.username }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <p>No recommendations.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <h2>Last friends posts:</h2>
+        <div class="row">
+            {% for post, reaction in PostReactions.items %}
+                <div class="col-12 mt-2">
+                    {% include 'post.html' with display='block' pk=post.pk user=post.user current_user=current_user date=post.date content=post.content reactions=reaction %}
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p>No posts yet</p>
+                </div>
+            {% endfor %}
+        </div>
+        <script src="{% static 'js/reaction/add_reaction.js' %}"></script>
+        
+    </div> 
+{% endblock content %}

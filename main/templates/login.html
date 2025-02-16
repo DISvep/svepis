@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Login</title>
+{% endblock title %}
+
+{% block content %}
+    <form method="post" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="w-100 btn btn-lg btn-primary rounded-pill" type="submit">Login</button>
+        <hr class="my-1">
+        <small class="text-body secondary text-center">Dont have an account? <a href="/login/">REGISTER</a></small>
+    </form>
+{% endblock content %}
