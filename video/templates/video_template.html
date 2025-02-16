@@ -1,0 +1,20 @@
+<a href="{% url 'video' pk %}" style="text-decoration: none;">
+    <div class="card">
+        <img src="{{ preview }}" class="card-img-top">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-1">
+                    <img src="{{ avatar }}" width="25" height="25">
+                </div>
+                <div class="col">
+                    <div class="card-title">
+                        {{ name }}
+                    </div>
+                    <div class="card-text">
+                        {{ user }} · {{ date|timesince }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

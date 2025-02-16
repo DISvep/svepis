@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class SubscriptionList(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription_list')
-    subscribers = models.ManyToManyField(User, blank=True, related_query_name='subscribers')
+    subscribers = models.ManyToManyField(User, blank=True)
     subscriptions = models.ManyToManyField(User, blank=True, related_name="subscriptions")
     
     def __str__(self):

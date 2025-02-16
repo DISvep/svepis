@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Videos</title>
+{% endblock title %}
+
+{% block content %}
+    <nav class="navbar bg-secondary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Videos</span>
+            <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#postModal"><i class="bi bi-plus-lg"></i> Create</button>
+      </div>
+    </nav>
+    <div class="row">
+        {% for video in videos %}
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                {% include 'video_template.html' with preview=video.preview.url name=video.name user=video.user avatar=video.user.portal.avatar.url date=video.date pk=video.pk %}
+            </div>
+        {% empty %}
+            No video yet
+        {% endfor %}
+    </div>
+{% endblock content %}

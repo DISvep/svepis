@@ -1,14 +1,15 @@
-from django.shortcuts import render
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CommentForm, VideoCommentForm
+from .models import PostComment, VideoComment
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from .models import PostComment
-from .forms import CommentForm
-from post.models import Post
-from main.mixins import IsOwnerMixin
 from reaction.models import PostReaction
 from django.db.models import Prefetch
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from main.mixins import IsOwnerMixin
+from django.shortcuts import render
+from video.models import Video
+from post.models import Post
 
 
 # Create your views here.
@@ -60,3 +61,36 @@ class DeletePostCommentView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
     
     def get_success_url(self):
         return reverse_lazy('post-comments', kwargs={'pk': self.object.post.pk})
+
+
+class CreateVideoCommentView(LoginRequiredMixin, CreateView):
+    model = VideoComment
+
+    def post(self, request, *args, **kwargs):
+        form = VideoCommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.video = Video.objects.get(pk=request.POST.get('post_pk'))
+            comment.save()
+
+            return HttpResponseRedirect(reverse_lazy('video', kwargs={'pk': request.POST.get('post_pk')}))
+        else:
+            return HttpResponseRedirect(reverse_lazy('video', kwargs={'pk': request.POST.get('post_pk')}))
+
+
+class UpdateVideoCommentView(LoginRequiredMixin, IsOwnerMixin, UpdateView):
+    model = VideoComment
+    form_class = VideoCommentForm
+
+    def get_success_url(self):
+        return reverse_lazy('video', kwargs={'pk': self.object.video.pk})
+
+
+class DeleteVideoCommentView(LoginRequiredMixin, IsOwnerMixin, DeleteView):
+    model = VideoComment
+
+    def get_success_url(self):
+        return reverse_lazy('video', kwargs={'pk': self.object.video.pk})
+    

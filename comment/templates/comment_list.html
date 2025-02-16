@@ -57,7 +57,7 @@
         {% if user.is_authenticated %}
             <div class="row">
                 <div class="col">
-                    {% include 'comment_form.html' with pk=post.pk comment_form=comment_form %}
+                    {% include 'comment_form.html' with pk=post.pk comment_form=comment_form direction='comment-create' %}
                 </div>
             </div>
             <br>
