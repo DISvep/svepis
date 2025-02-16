@@ -29,6 +29,7 @@ urlpatterns = [
     path('widget/', include('widget.urls')),
     path('subscription/', include('subscription.urls')),
     path('chat/', include('chat.urls')),
-    path('discovery/', include('news.urls'))
+    path('discovery/', include('news.urls')),
+    path('video/', include('video.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

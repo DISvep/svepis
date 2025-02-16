@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="row chat-container bg-info">
-        <div class="col-3 chat-list bg-success">
+        <div class="col-3 chat-list bg-info">
             <div class="bg-secondary p-2 mt-2" style="border-radius: 10px;">
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1">@</span>
@@ -44,15 +44,19 @@
         <div class="col-9">
             <div class="chat-box bg-primary">
                 <h3 class="text-dark">Chats</h3>
-                <div class="messages-container bg-success text-dark" id="messagesContainer">
+                <div class="messages-container bg-info text-dark" id="messagesContainer">
                     <h1 class="display-1 text-center">Select Chat</h1>
                 </div>
             
                 <div class="chat-input-container">
-                    <input class="bg-light" type="text" id="id_message_send_input" placeholder="Type a message..." />
-                    <button id="id_message_send_button">
-                        <i class="bi bi-send"></i>
+                    <input type="file" id="id_message_image_input" style="display: none;" accept="image/*" disabled>
+                    <button class="chat-message-image-button" id="id_message_image_button">
+                        <i class="bi bi-card-image"></i>
                     </button>
+                    <input class="bg-light" type="text" id="id_message_send_input" placeholder="Type a message..." disabled/>
+                    <button class="chat-message-send-button" id="id_message_send_button" disabled>
+                        <i class="bi bi-send"></i>
+                    </button>                    
                 </div>
             </div>
         </div>

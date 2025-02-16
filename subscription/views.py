@@ -18,7 +18,13 @@ class SubscribeButtonView(LoginRequiredMixin, View):
                 request.user.subscription_list.unsubscribe(portal)
             else:
                 request.user.subscription_list.subscribe(portal)
-        return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': portal.portal.pk}))
+        
+        next_url = request.GET.get('next')
+        
+        if not next_url:
+            return HttpResponseRedirect(reverse_lazy('portal', kwargs={'pk': portal.portal.pk}))
+        
+        return HttpResponseRedirect(next_url)
 
 
 class SendFriendRequestView(LoginRequiredMixin, View):

@@ -7,5 +7,9 @@ $('#updateModal').on('show.bs.modal', function (event) {
     const content = button.getAttribute('data-content');
     
     area.value = content;
-    updateForm.action = `/comment/${pk}/update`;
+    if (video) {
+        updateForm.action = `/comment/${pk}/video-update`;
+    } else {
+        updateForm.action = `/comment/${pk}/update`;
+    }
 });

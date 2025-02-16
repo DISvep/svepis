@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'subscription',
     'chat',
     'news',
+    'video',
 ]
 
 MIDDLEWARE = [

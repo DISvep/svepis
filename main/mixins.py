@@ -18,3 +18,4 @@ class IsOwnerMixin(object):
                 raise PermissionDenied('You dont have a permission.')
         
         return super().dispatch(request, *args, **kwargs)
+    

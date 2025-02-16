@@ -1,6 +1,6 @@
 {% load static %}
 <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar" style="position: fixed;">
-    <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-decoration-none">
+    <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <span class="fs-3">Svepis</span>
     </a>
     <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start sidebar-content">
@@ -30,7 +30,7 @@
                 <i class="fs-5 bi bi-music-note"></i><span class="ms-2 fs-5 d-none d-sm-inline">Music</span></a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="nav-link sidebar-link">
+            <a href="{% url 'main-video' %}" class="nav-link sidebar-link">
                 <i class="fs-5 bi bi-play"></i><span class="ms-2 fs-5 d-none d-sm-inline">Videos</span></a>
         </li>
         <script src="{% static 'js/main/sidebar.js' %}"></script>
