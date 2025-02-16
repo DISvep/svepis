@@ -19,4 +19,4 @@ EXPOSE 8000
 
 COPY create_superuser.py /app/
 
-CMD sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py shell < /app/create_superuser.py && gunicorn my_project.wsgi -b 0.0.0.0:8000"
+CMD sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py shell < /app/create_superuser.py && gunicorn svepis.wsgi -b 0.0.0.0:8000"
