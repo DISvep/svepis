@@ -92,6 +92,8 @@ CHANNEL_LAYERS = {
     }
 }
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
