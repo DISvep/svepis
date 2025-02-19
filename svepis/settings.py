@@ -24,6 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('secret_key')
 GOOGLE_DRIVE_KEY_PATH = os.getenv('GOOGLE_DRIVE_KEY_PATH', 'gdrive_key.json')
 
+DB_BACKUP_PATH = 'db_backup.json'
+GDRIVE_FILENAME = "backup.json"
+MEDIA_FOLDER = 'media'
+GDRIVE_MEDIA_FOLDER = 'media_backup.zip'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
