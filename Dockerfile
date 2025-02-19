@@ -13,15 +13,9 @@ RUN echo $GDRIVE_KEY | base64 -d > /app/gdrive_key.json
 
 COPY . /app/
 
-# Открываем порты
 EXPOSE 8000
 EXPOSE 5252
 
-# Копируем ключ Google Drive
-COPY gdrive_key.json /app/
-
-# Копируем конфиг Supervisor
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-# Запускаем Supervisor
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
