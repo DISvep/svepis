@@ -7,6 +7,7 @@ import os
 
 def get_drive():
     gdrive_key_b64 = os.getenv('GDRIVE_KEY')
+    print(f"GDRIVE_KEY: {os.getenv('GDRIVE_KEY')}")
     if gdrive_key_b64:
         gdrive_key_json = base64.b64decode(gdrive_key_b64).decode('utf-8')
         with open('/app/gdrive_key.json', 'w') as key_file:
