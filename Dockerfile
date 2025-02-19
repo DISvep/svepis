@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y gcc supervisor unzip && rm -rf /var/lib
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 RUN echo $GDRIVE_KEY | base64 -d > /app/gdrive_key.json
-RUN python manage.py migrate --noinput
 
 COPY . /app/
+
+RUN python manage.py migrate --noinput
 
 EXPOSE 8000
 EXPOSE 5252
