@@ -6,22 +6,19 @@ import os
 
 
 def get_drive():
-    gauth = GoogleAuth()
-    
     gdrive_key_b64 = os.getenv('GDRIVE_KEY')
     if gdrive_key_b64:
         gdrive_key_json = base64.b64decode(gdrive_key_b64).decode('utf-8')
         with open('/app/gdrive_key.json', 'w') as key_file:
             key_file.write(gdrive_key_json)
     
-    gauth.LoadCredentialsFile('/app/gdrive_key.json')
+    gauth = GoogleAuth()
     
-    if gauth.credentials is None:
-        gauth.Authorize()
-    elif gauth.access_token_expired:
-        gauth.Refresh()
-    else:
-        gauth.Authorize()
+    gauth.settings['client_config_backend'] = "service"
+    gauth.settings["service_config"] = {
+        "client_json_file_path": "/app/gdrive_key.json"
+    }
+    gauth.ServiceAuth()
     
     return GoogleDrive(gauth)
 
