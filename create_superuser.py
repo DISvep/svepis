@@ -7,6 +7,8 @@ username = os.getenv("DJANGO_SUPERUSER_USERNAME")
 email = os.getenv("DJANGO_SUPERUSER_EMAIL")
 password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
 
+print("Checking for superuser !!!")
+
 if not User.objects.filter(username=username).exists():
     superuser = User.objects.create_superuser(username=username, email=email, password=password)
     
