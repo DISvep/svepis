@@ -1,7 +1,7 @@
-import base64
-
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
+import base64
+import json
 import os
 
 
@@ -11,13 +11,17 @@ def get_drive():
         gdrive_key_json = base64.b64decode(gdrive_key_b64).decode('utf-8')
         with open('/app/gdrive_key.json', 'w') as key_file:
             key_file.write(gdrive_key_json)
+            
+        key_data = json.loads(gdrive_key_json)
+    else:
+        raise ValueError("GDRIVE_KEY environment variable is missing!")
     
     gauth = GoogleAuth()
     
     gauth.settings['client_config_backend'] = "service"
     gauth.settings["service_config"] = {
         "client_json_file_path": "/app/gdrive_key.json",
-        'client_user_email': key_file['client_email'],
+        'client_user_email': key_data['client_email'],
     }
     gauth.ServiceAuth()
     
