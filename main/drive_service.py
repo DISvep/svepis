@@ -1,3 +1,5 @@
+import base64
+
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import os
@@ -5,9 +7,21 @@ import os
 
 def get_drive():
     gauth = GoogleAuth()
-    gauth.LoadCredentialsFile(os.getenv('GDRIVE_CREDENTIALS', '/app/gdrive_key.json'))
-
-    gauth.Authorize()
+    
+    gdrive_key_b64 = os.getenv('GDRIVE_KEY')
+    if gdrive_key_b64:
+        gdrive_key_json = base64.b64decode(gdrive_key_b64).decode('utf-8')
+        with open('/app/gdrive_key.json', 'w') as key_file:
+            key_file.write(gdrive_key_json)
+    
+    gauth.LoadCredentialsFile('/app/gdrive_key.json')
+    
+    if gauth.credentials is None:
+        gauth.LocalWebserverAuth()
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+    else:
+        gauth.Authorize()
     
     return GoogleDrive(gauth)
 
