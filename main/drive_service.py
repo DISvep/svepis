@@ -16,7 +16,8 @@ def get_drive():
     
     gauth.settings['client_config_backend'] = "service"
     gauth.settings["service_config"] = {
-        "client_json_file_path": "/app/gdrive_key.json"
+        "client_json_file_path": "/app/gdrive_key.json",
+        'client_user_email': key_file['client_email'],
     }
     gauth.ServiceAuth()
     
