@@ -20,6 +20,9 @@ else:
     
 django.setup()
 
+print("Applying migrations...")
+call_command("migrate", "--noinput")
+
 # Загружаем базу данных
 print("Downloading database from Google Drive...")
 download_file("backup.json", "db_backup.json")
@@ -40,9 +43,6 @@ except Exception as e:
 
 
 # Применяем миграции и собираем статику
-print("Applying migrations...")
-call_command("migrate", "--noinput")
-
 print("Collecting static files...")
 call_command("collectstatic", "--noinput")
 
