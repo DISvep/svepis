@@ -22,8 +22,5 @@ EXPOSE 5252
 # Копируем конфиг supervisor
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-# Выполняем инициализацию перед запуском supervisor
-RUN python /app/init_app.py GDRIVE_KEY=${GDRIVE_KEY}
-
 # Запуск supervisor
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
