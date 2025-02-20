@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
 
-RUN ls -l /entrypoint.sh
+RUN ls -l entrypoint.sh
 
 EXPOSE 8000
 EXPOSE 5252
