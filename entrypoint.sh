@@ -1,7 +1,6 @@
 #!/bin/sh
 
 echo "Checking environment variables..."
-echo "GDRIVE_KEY: ${GDRIVE_KEY}"
 
 if [ -z "$GDRIVE_KEY" ]; then
   echo "ERROR: GDRIVE_KEY is missing!"

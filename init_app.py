@@ -8,7 +8,6 @@ from django.core.management import call_command
 # Декодируем ключ Google Drive
 print("Decoding Google Drive key...")
 gdrive_key_b64 = os.getenv("GDRIVE_KEY")
-print(gdrive_key_b64)
 if gdrive_key_b64:
     gdrive_key_json = base64.b64decode(gdrive_key_b64).decode("utf-8")
     with open("/app/gdrive_key.json", "w") as key_file:
@@ -23,8 +22,11 @@ download_file("db.sqlite3", "db.sqlite3")
 
 # Загружаем и распаковываем медиафайлы
 print("Downloading media files from Google Drive...")
-download_file("media.zip", "media.zip")
-subprocess.run(["unzip", "-o", "media.zip", "-d", "/app/media"], check=True)
+try:
+    download_file("media.zip", "media.zip")
+    subprocess.run(["unzip", "-o", "media.zip", "-d", "/app/media"], check=True)
+except Exception as e:
+    print("no media.zip in google drive")
 
 # Применяем миграции и собираем статику
 print("Applying migrations...")
