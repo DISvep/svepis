@@ -15,6 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь проект в контейнер
 COPY . /app/
 
+ENV GDRIVE_KEY=${GDRIVE_KEY}
+RUN python init_app.py
+
 # Открываем порты
 EXPOSE 8000
 EXPOSE 5252
