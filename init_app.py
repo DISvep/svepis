@@ -2,7 +2,7 @@ import os
 import base64
 import json
 import subprocess
-from gdrive_utils import download_file
+from main.drive_service import download_file
 from django.core.management import call_command
 
 # Декодируем ключ Google Drive
