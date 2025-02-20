@@ -15,6 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь проект в контейнер
 COPY . /app/
 
+RUN chmod +x /app/entrypoint.sh
+
 # Открываем порты
 EXPOSE 8000
 EXPOSE 5252
@@ -23,4 +25,5 @@ EXPOSE 5252
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 # Запуск supervisor
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
