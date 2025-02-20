@@ -5,6 +5,8 @@ import json
 import os
 
 
+print(f"GDRIVE_KEY TEST LOG: {os.getenv('GDRIVE_KEY')}")
+
 def get_drive():
     gdrive_key_b64 = os.getenv('GDRIVE_KEY')
     print(f"GDRIVE_KEY: {os.getenv('GDRIVE_KEY')}")
