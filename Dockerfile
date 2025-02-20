@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
 
+RUN ls
+
 EXPOSE 8000
 EXPOSE 5252
 
