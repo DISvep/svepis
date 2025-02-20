@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e  # Остановить выполнение при ошибке
-
 echo "Decoding Google Drive key..."
 echo $GDRIVE_KEY | base64 -d > /app/gdrive_key.json || echo "Failed to decode Google Drive key."
 
