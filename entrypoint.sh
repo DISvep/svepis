@@ -24,3 +24,4 @@ echo "Creating superuser..."
 python manage.py shell < /app/create_superuser.py || echo "Superuser creation failed."
 
 echo "Initialization complete."
+exec "$@"
