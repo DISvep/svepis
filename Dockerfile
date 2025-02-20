@@ -7,7 +7,7 @@ ENV DJANGO_SETTINGS_MODULE=svepis.settings
 WORKDIR /app
 
 # Установить необходимые пакеты
-RUN apt-get update && apt-get install -y gcc supervisor unzip curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y zip && apt-get install -y gcc supervisor unzip curl && rm -rf /var/lib/apt/lists/*
 
 # Копируем requirements.txt и устанавливаем зависимости
 COPY requirements.txt /app/

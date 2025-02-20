@@ -13,6 +13,9 @@ GDRIVE_MEDIA_FOLDER = 'media_backup.zip'
 def backup_db():
     print('Backing up database before shutdown...')
     
+    if not os.path.exists(GDRIVE_MEDIA_FOLDER):
+        os.system(f'zip -r {GDRIVE_MEDIA_FOLDER} media/')
+    
     call_command('dumpdata', output=DB_BACKUP_PATH)
     upload_file(DB_BACKUP_PATH, GDRIVE_FILENAME)
     

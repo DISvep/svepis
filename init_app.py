@@ -40,5 +40,5 @@ call_command("collectstatic", "--noinput")
 
 # Создаем суперпользователя
 print("Creating superuser...")
-subprocess.run(["python", "manage.py", "shell", "<", "/app/create_superuser.py"], check=True)
+subprocess.run(["python", "manage.py", "shell", "-c", "exec(open('/app/create_superuser.py').read())"], check=True)
 print("Initialization complete.")
