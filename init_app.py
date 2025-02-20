@@ -16,20 +16,28 @@ if gdrive_key_b64:
     print("Google Drive key saved.")
 else:
     print("Warning: GDRIVE_KEY is missing!")
+    
+    
+django.setup()
 
 # Загружаем базу данных
 print("Downloading database from Google Drive...")
-download_file("db.sqlite3", "db.sqlite3")
+download_file("backup.json", "db_backup.json")
+
+if os.path.exists("db_backup.json"):
+    os.system('python manage.py loaddata db_backup.json')
+    print('Database restored from backup!')
 
 # Загружаем и распаковываем медиафайлы
 print("Downloading media files from Google Drive...")
 try:
-    download_file("media.zip", "media.zip")
-    subprocess.run(["unzip", "-o", "media.zip", "-d", "/app/media"], check=True)
+    download_file("media_backup.zip", "media_backup.zip")
+    if os.path.exists('media_backup.zip'):
+        os.system('unzip -o media_backup.zip -d media')
+        print('Media files restored!')
 except Exception as e:
     print("no media.zip in google drive")
 
-django.setup()
 
 # Применяем миграции и собираем статику
 print("Applying migrations...")
