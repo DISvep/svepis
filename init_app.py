@@ -4,6 +4,7 @@ import json
 import subprocess
 from main.drive_service import download_file
 from django.core.management import call_command
+import django
 
 # Декодируем ключ Google Drive
 print("Decoding Google Drive key...")
@@ -27,6 +28,8 @@ try:
     subprocess.run(["unzip", "-o", "media.zip", "-d", "/app/media"], check=True)
 except Exception as e:
     print("no media.zip in google drive")
+
+django.setup()
 
 # Применяем миграции и собираем статику
 print("Applying migrations...")
