@@ -8,6 +8,7 @@ from django.core.management import call_command
 # Декодируем ключ Google Drive
 print("Decoding Google Drive key...")
 gdrive_key_b64 = os.getenv("GDRIVE_KEY")
+print(gdrive_key_b64)
 if gdrive_key_b64:
     gdrive_key_json = base64.b64decode(gdrive_key_b64).decode("utf-8")
     with open("/app/gdrive_key.json", "w") as key_file:
