@@ -43,8 +43,6 @@ if os.path.exists('media_backup.zip'):
     
     for root, dirs, files in os.walk('media'):
         for file in files:
-            print("TEST LOG")
-            
             print(os.path.join(root, file))
 
 
