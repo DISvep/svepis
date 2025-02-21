@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
+from collections import defaultdict
 from django.urls import reverse
 import post.models
 import os
@@ -58,12 +59,22 @@ class GoogleDriveView(TemplateView):
             try:
                 drive = get_drive()
                 
-                file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+                all_files = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+                
+                groups = defaultdict(list)
+                for f in all_files:
+                    groups[f['title']].append(f)
+                
                 count = len(file_list)
                 count2 = 0
-                for file in file_list:
-                    delete_file(file['id'])
-                    count2 += 1
+                
+                for title, group in groups.items():
+                    if len(group) > 1:
+                        group.sort(key=lambda x: x.get('createdDate') or x.get('fileSize', 0), reverse=True)
+
+                        for duplicate in group[1:]:
+                            delete_file(duplicate['id'])
+                            count2 += 1
                 
                 messages.success(request, f"Deleted {count} or {count2} files from Google Drive")
             except Exception as e:
