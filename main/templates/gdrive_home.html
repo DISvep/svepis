@@ -45,4 +45,9 @@
             </tr>
         {% endfor %}
     </table>
+
+    <form method="POST" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        <button type="submit" name="delete_all" onclick="return confirm('DO YOU REALLY WANT TO DELETE ALL DATA?');">DELETE ALL FILES</button>
+    </form>
 {% endblock content %}

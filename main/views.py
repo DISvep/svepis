@@ -45,7 +45,7 @@ class GoogleDriveView(TemplateView):
                 
                 messages.success(request, "Backup successfully created and uploaded to Google Drive")
             except Exception as e:
-                messages.error(request, f"Error backup: {e}")
+                messages.error(request, f"Error while backup: {e}")
         elif 'delete' in request.POST:
             file_id = request.POST.get('file_id')
             if file_id:
@@ -53,7 +53,22 @@ class GoogleDriveView(TemplateView):
                     delete_file(file_id)
                     messages.success(request, "File successfully deleted from Google Drive")
                 except Exception as e:
-                    messages.error(request, f"Error deleting: {e}")
+                    messages.error(request, f"Error while deleting: {e}")
+        elif 'delete_all' in request.POST:
+            try:
+                drive = get_drive()
+                
+                file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+                count = len(file_list)
+                count2 = 0
+                for file in file_list:
+                    delete_file(file['id'])
+                    count2 += 1
+                
+                messages.success(request, f"Deleted {count} or {count2} files from Google Drive")
+            except Exception as e:
+                messages.error(request, f"Error while deleting all: {e}")
+
         return redirect('gdrive-home')
                 
 
