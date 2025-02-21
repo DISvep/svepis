@@ -38,7 +38,9 @@ try:
     if os.path.exists('media_backup.zip'):
         os.system('unzip -o media_backup.zip -d media')
         print('Media files restored!')
-        print(os.listdir('media'))
+        for root, dirs, files in os.walk('/media'):
+            for file in files:
+                print(os.path.join(root, file))
 except Exception as e:
     print("no media.zip in google drive")
 
