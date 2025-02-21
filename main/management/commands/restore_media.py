@@ -14,7 +14,7 @@ class Command(BaseCommand):
         if os.path.exists(LOCAL_MEDIA_FOLDER):
             print('Extracting media files...')
             
-            os.system(f'unzip -o {LOCAL_MEDIA_FOLDER} -d ./')
+            os.system(f'unzip -o {LOCAL_MEDIA_FOLDER} -d media/')
             
             if os.path.exists('media/media'):
                 os.system('mv media/media/* media/ && rmdir media/media')

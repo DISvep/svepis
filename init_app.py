@@ -40,6 +40,7 @@ try:
         print('Media files restored!')
         for root, dirs, files in os.walk('/media'):
             for file in files:
+                print("TEST LOG")
                 print(os.path.join(root, file))
 except Exception as e:
     print("no media.zip in google drive")
