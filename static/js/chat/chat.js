@@ -117,10 +117,15 @@ document.addEventListener("DOMContentLoaded", function () {
     addContextMenu();
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const chatSocket = new WebSocket(`${protocol}://${window.location.host}:5252/ws/chat/${roomPk}/`);
+    const chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${roomPk}/`);
 
     chatSocket.onopen = () => console.log("Connected to WebSocket");
-    chatSocket.onclose = () => console.log("Disconnected from WebSocket");
+    chatSocket.onclose = () => {
+        console.log("Disconnected from WebSocket. Reconnecting...");
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+    };
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
