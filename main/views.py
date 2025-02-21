@@ -69,7 +69,7 @@ class GoogleDriveView(TemplateView):
                     if len(group) > 1:
                         group.sort(key=lambda x: x.get('createdDate') or x.get('fileSize', 0), reverse=True)
 
-                        for duplicate in group[1:100]:
+                        for duplicate in group[1:][-100:]:
                             delete_file(duplicate['id'])
                 
                 messages.success(request, f"Deleted 100 last from Google Drive")
