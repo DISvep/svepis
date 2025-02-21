@@ -33,17 +33,19 @@ if os.path.exists("db_backup.json"):
 
 # Загружаем и распаковываем медиафайлы
 print("Downloading media files from Google Drive...")
-try:
-    download_file("media_backup.zip", "media_backup.zip")
-    if os.path.exists('media_backup.zip'):
-        os.system('unzip -o media_backup.zip -d media/')
-        print('Media files restored!')
-        for root, dirs, files in os.walk('/media'):
-            for file in files:
-                print("TEST LOG")
-                print(os.path.join(root, file))
-except Exception as e:
-    print("no media.zip in google drive")
+
+download_file("media_backup.zip", "media_backup.zip")
+
+if os.path.exists('media_backup.zip'):
+    os.system('unzip -o media_backup.zip -d media/')
+    
+    print('Media files restored!')
+    
+    for root, dirs, files in os.walk('media'):
+        for file in files:
+            print("TEST LOG")
+            
+            print(os.path.join(root, file))
 
 
 # Применяем миграции и собираем статику
