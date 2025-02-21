@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Gdrive home</title>
+{% endblock title %}
+
+{% block content %}
+    <h1>Google Drive Management</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message.tags }}: {{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="backup">Make BACKUP</button>
+    </form>
+
+    <h2>List of Google Drive Files</h2>
+    <table border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file.id }}</td>
+                <td>{{ file.title }}</td>
+                <td>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="file_id" value="{{ file.id }}">
+                        <button type="submit" name="delete" onclick="return confirm('Delete file {{ file.id }} ?');">DELETE</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
