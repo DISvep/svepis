@@ -9,5 +9,5 @@ urlpatterns = [
     path('register/', CustomRegistrationView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('load-more-announcements/', load_more_announcements, name='load-more-announcements'),
-    path('gdrive/', GoogleDriveView.as_view(), name='gdrive_home'),
+    path('gdrive/', GoogleDriveView.as_view(), name='gdrive-home'),
 ]
