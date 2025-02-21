@@ -34,7 +34,7 @@ print("Downloading media files from Google Drive...")
 download_file("media_backup.zip", "media_backup.zip")
 
 if os.path.exists('media_backup.zip'):
-    os.system('unzip -o media_backup.zip -d media/')
+    os.system('unzip -o media_backup.zip')
     print('Media files restored!')
     
     for root, dirs, files in os.walk('media'):
