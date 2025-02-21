@@ -1,4 +1,5 @@
 from subscription.models import FriendList, SubscriptionList
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.views.generic import ListView
@@ -9,7 +10,7 @@ import random
 
 
 # Create your views here.
-class DiscoveryView(ListView):
+class DiscoveryView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'discovery.html'
     context_object_name = 'posts'
