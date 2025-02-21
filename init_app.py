@@ -41,7 +41,10 @@ if os.path.exists('media_backup.zip'):
     
     print('Media files restored!')
     
-    print(os.walk('media'))
+    for root, dirs, files in os.walk('media'):
+        print(root, dirst, files)
+        for file in files:
+            print(os.path.join(root, file))
 
 
 # Применяем миграции и собираем статику
