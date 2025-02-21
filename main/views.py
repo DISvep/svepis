@@ -65,17 +65,14 @@ class GoogleDriveView(TemplateView):
                 for f in all_files:
                     groups[f['title']].append(f)
                 
-                count = 0
-                
                 for title, group in groups.items():
                     if len(group) > 1:
                         group.sort(key=lambda x: x.get('createdDate') or x.get('fileSize', 0), reverse=True)
 
                         for duplicate in group[1:]:
                             delete_file(duplicate['id'])
-                            count += 1
                 
-                messages.success(request, f"Deleted {count} files from Google Drive")
+                messages.success(request, f"Deleted all from Google Drive")
             except Exception as e:
                 messages.error(request, f"Error while deleting all: {e}")
 
