@@ -70,7 +70,9 @@
     <nav class="navbar bg-secondary">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1">Posts</span>
-            <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#postModal"><i class="bi bi-plus-lg"></i> Create</button>
+            {% if current_user.is_authenticated %}
+                <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#postModal"><i class="bi bi-plus-lg"></i> Create</button>
+            {% endif %}
       </div>
     </nav>
     <div class="container mt-3 border p-5">

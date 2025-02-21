@@ -47,7 +47,9 @@
             {% endfor %}
            
             <div class="col-auto">
-                {% include 'add_reaction.html' with pk=pk %}
+                {% if current_user.is_authenticated %}
+                    {% include 'add_reaction.html' with pk=pk %}
+                {% endif %}
             </div>
         </div>
     {% endif %}
