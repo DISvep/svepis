@@ -23,7 +23,7 @@ def backup_db():
 
     print('Backing up media files before shutdown...')
     
-    os.system(f"zip -r {GDRIVE_MEDIA_FOLDER} {MEDIA_FOLDER}")
+    os.system(f"zip -r {GDRIVE_MEDIA_FOLDER} {MEDIA_FOLDER} -x 'media/media/*'")
     upload_file(GDRIVE_MEDIA_FOLDER, GDRIVE_MEDIA_FOLDER)
     
     print(f'Media files backup {GDRIVE_MEDIA_FOLDER} uploaded to Google Drive.')

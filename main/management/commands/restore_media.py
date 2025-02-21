@@ -13,6 +13,14 @@ class Command(BaseCommand):
         
         if os.path.exists(LOCAL_MEDIA_FOLDER):
             print('Extracting media files...')
+            
             os.system(f'unzip -o {LOCAL_MEDIA_FOLDER} -d ./')
+            
+            if os.path.exists('media/media'):
+                os.system('mv media/media/* media/ && rmdir media/media')
+            
             print("Media files restored successfully.")
+
+            print("Checking extracted media files...")
+            os.system("ls -R media")
         
