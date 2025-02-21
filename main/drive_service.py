@@ -30,6 +30,7 @@ def get_drive():
 
 def upload_file(local_path, gdrive_filename, folder_id=None):
     drive = get_drive()
+    
     file_metadata = {'title': gdrive_filename}
     if folder_id:
         file_metadata['parents'] = [{'id': folder_id}]
@@ -44,6 +45,7 @@ def upload_file(local_path, gdrive_filename, folder_id=None):
 
 def download_file(gdrive_filename, local_path, folder_id=None):
     drive = get_drive()
+    
     query = f"title='{gdrive_filename}'"
     if folder_id:
         query += f" and '{folder_id}' in parents"
@@ -56,3 +58,12 @@ def download_file(gdrive_filename, local_path, folder_id=None):
         print(f'File {gdrive_filename} downloaded from Google Drive to {local_path}')
     else:
         print(f"File {gdrive_filename} not found on Google Drive")
+
+
+def delete_file(file_id):
+    drive = get_drive()
+    
+    file = drive.CreateFile({'id': file_id})
+    file.Delete()
+    
+    print(f"File with id {file_id} was deleted from Google Drive")

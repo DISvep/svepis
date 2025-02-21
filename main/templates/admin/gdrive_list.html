@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <h1>Google Drive Files List</h1>
+    <p><a href="{% url 'admin:gdrive-backup' %}">MAKE BACKUP</a></p>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file['id'] }}</td>
+                <td>{{ file['title'] }}</td>
+                <td>
+                    <a href="{% url 'admin:gdrive-delete' file_id=file['id'] %}" onclick="return confirm('Delete file?');">DELETE</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
