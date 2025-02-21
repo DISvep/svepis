@@ -1,6 +1,6 @@
-from django.urls import path
-from .views import CustomLoginView, CustomRegistrationView, IndexView, load_more_announcements
+from .views import CustomLoginView, CustomRegistrationView, IndexView, load_more_announcements, GoogleDriveView
 from django.contrib.auth.views import LogoutView
+from django.urls import path
 
 
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('register/', CustomRegistrationView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('load-more-announcements/', load_more_announcements, name='load-more-announcements')
+    path('load-more-announcements/', load_more_announcements, name='load-more-announcements'),
+    path('gdrive/', GoogleDriveView.as_view(), name='gdrive_home'),
 ]
