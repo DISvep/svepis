@@ -29,8 +29,6 @@ GOOGLE_DRIVE_KEY_PATH = os.getenv('GOOGLE_DRIVE_KEY_PATH', 'gdrive_key.json')
 DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get('allowed_hosts', '127.0.0.1')]
-CSRF_TRUSTED_ORIGINS = [f"https://{os.environ.get('allowed_hosts')}"]
-
 
 # Application definition
 
@@ -91,8 +89,11 @@ ASGI_APPLICATION = 'svepis.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-    }
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis-server-name', 6379)],
+        },
+    },
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

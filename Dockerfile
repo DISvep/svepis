@@ -15,7 +15,7 @@ COPY . /app/
 
 RUN chmod +x /app/entrypoint.sh
 
-RUN mkdir -p /run/daphne && chown www-data:www-data
+RUN sudo mkdir /run/daphne/
 
 EXPOSE 5000
 
