@@ -120,12 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${roomPk}/`);
 
     chatSocket.onopen = () => console.log("Connected to WebSocket");
-    chatSocket.onclose = () => {
-        console.log("Disconnected from WebSocket. Reconnecting...");
-        setTimeout(() => {
-            location.reload();
-        }, 3000);
-    };
+    chatSocket.onclose = () => console.log("Disconnected from WebSocket.");
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
