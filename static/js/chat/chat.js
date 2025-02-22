@@ -121,9 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(protocol);
 
     chatSocket.onopen = () => console.log("Connected to WebSocket");
-    socket.onerror = (e) => console.error("WebSocket Error", e);
+    chatSocket.onerror = (e) => console.error("WebSocket Error", e);
     chatSocket.onclose = () => console.log("Disconnected from WebSocket.");
-    socket.onmessage = (e) => console.log("Message:", e.data);
+    chatSocket.onmessage = (e) => console.log("Message:", e.data);
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
