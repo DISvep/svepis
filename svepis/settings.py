@@ -29,6 +29,9 @@ GOOGLE_DRIVE_KEY_PATH = os.getenv('GOOGLE_DRIVE_KEY_PATH', 'gdrive_key.json')
 DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get('allowed_hosts', '127.0.0.1')]
+CORS_ALLOWED_ORIGINS = [
+    "https://svepis.onrender.com"
+]
 
 # Application definition
 
