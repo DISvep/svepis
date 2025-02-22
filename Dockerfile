@@ -21,8 +21,7 @@ RUN mkdir -p /run/daphne/
 
 EXPOSE 8000 443
 
-# COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-# CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
-CMD daphne -b 0.0.0.0 -p 443 svepis.asgi:application
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
