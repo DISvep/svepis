@@ -67,6 +67,7 @@ typing_extensions==4.12.2
 tzdata==2024.2
 uritemplate==4.1.1
 urllib3==2.3.0
+uvicorn
 wheel==0.37.1
 whitenoise==6.9.0
 yarl==1.18.3
