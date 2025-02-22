@@ -19,7 +19,7 @@ RUN chmod +x /app/entrypoint.sh
 
 RUN mkdir -p /run/daphne/
 
-EXPOSE 8000 8001
+EXPOSE 8000 443
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
