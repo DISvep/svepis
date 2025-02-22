@@ -6,7 +6,7 @@ ENV DJANGO_SETTINGS_MODULE=svepis.settings
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y zip && apt-get install -y gcc supervisor unzip curl nginx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y zip && apt-get install -y gcc supervisor unzip sudo curl nginx && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
