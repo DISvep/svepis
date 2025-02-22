@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addContextMenu();
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const chatSocket = new WebSocket(`${protocol}://${window.location.host}:5000/ws/chat/${roomPk}/`);
+    const chatSocket = new WebSocket(`${protocol}://${window.location.host}:8001/ws/chat/${roomPk}/`);
     console.log(protocol);
 
     chatSocket.onopen = () => console.log("Connected to WebSocket");
