@@ -123,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     chatSocket.onopen = () => console.log("Connected to WebSocket");
     socket.onerror = (e) => console.error("WebSocket Error", e);
     chatSocket.onclose = () => console.log("Disconnected from WebSocket.");
+    socket.onmessage = (e) => console.log("Message:", e.data);
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
