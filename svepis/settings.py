@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('secret_key')
+SECRET_KEY = os.environ.get('secret_key', 'verysupersecretkeyblablabla1982739182739@*#(&!@(#*ADLK!!@#KJKJLADFSDLKF')
 GOOGLE_DRIVE_KEY_PATH = os.getenv('GOOGLE_DRIVE_KEY_PATH', 'gdrive_key.json')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -89,11 +89,8 @@ ASGI_APPLICATION = 'svepis.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('redis-server-name', 6379)],
-        },
-    },
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
