@@ -17,9 +17,9 @@ RUN chmod +x /app/entrypoint.sh
 
 RUN sudo mkdir /run/daphne/
 
-EXPOSE 8000
+EXPOSE 8000 8001
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["/etc/supervisor/conf.d/supervisor.conf", '-n']
+CMD ["/usr/bin/supervisord", '-n']
