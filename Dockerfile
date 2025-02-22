@@ -22,4 +22,4 @@ EXPOSE 8000 8001
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["/usr/bin/supervisord", '-n']
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
