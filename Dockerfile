@@ -17,7 +17,7 @@ RUN chmod +x /app/entrypoint.sh
 
 RUN sudo mkdir /run/daphne/
 
-EXPOSE 5000
+EXPOSE ${PORT:-8000}
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
