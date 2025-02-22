@@ -16,10 +16,8 @@ COPY . /app/
 RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
-EXPOSE 5252
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
-COPY nginx.conf /etc/nginx/nginx.conf
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
