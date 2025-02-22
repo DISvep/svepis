@@ -15,7 +15,7 @@ COPY . /app/
 
 RUN chmod +x /app/entrypoint.sh
 
-EXPOSE 8000 10000
+EXPOSE ${PORT}
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
