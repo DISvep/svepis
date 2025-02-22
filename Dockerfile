@@ -6,8 +6,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     zip gcc supervisor unzip curl nginx && \
+    build-essential python3-dev && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/
