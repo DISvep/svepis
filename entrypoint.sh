@@ -1,7 +1,7 @@
 #!/bin/sh
+set -e
 
 echo "Checking environment variables..."
-
 if [ -z "$GDRIVE_KEY" ]; then
   echo "ERROR: GDRIVE_KEY is missing!"
   exit 1
