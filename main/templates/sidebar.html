@@ -19,11 +19,13 @@
         </li>
         <li class="sidebar-item">
             <a href="{% url 'chats' %}" class="nav-link sidebar-link">
-                <i class="fs-5 bi bi-chat-left"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Chats</span></a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="nav-link sidebar-link" aria-disabled="true">
-                <i class="fs-5 bi bi-music-note"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Music</span></a>
+                <i class="fs-5 bi bi-chat-left"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Chats</span>
+                {% if messages_count > 0 %}
+                    <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="margin-left: 1px;">
+                        {{ messages_count }}
+                    </span>
+                {% endif %}
+            </a>
         </li>
         <li class="sidebar-item">
             <a href="{% url 'main-video' %}" class="nav-link sidebar-link">
@@ -36,6 +38,11 @@
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{user.portal.avatar.url}}" width="28" height="28" class="rounded-circle">
                 <span class="d-none text-dark d-sm-inline mx-1">{{user.username}}</span>
+                {% if request_count > 0 %}
+                    <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="margin-left: -10px; margin-bottom: 25px;">
+                        {{ request_count }}
+                    </span>
+                {% endif %}
             </a>
             <ul class="dropdown-menu dropdown-menu-dark fs-4 shadow" aria-labelledby="dropdownUser1">
                 <li>
@@ -46,6 +53,11 @@
                 </li>
                 <li>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#requestModal" class="dropdown-item btn btn-primary">Requests</button>
+                    {% if request_count > 0 %}
+                        <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="margin-left: 87px; margin-top: -30px;">
+                            {{ request_count }}
+                        </span>
+                    {% endif %}
                 </li>
                 <li>
                     <hr class="dropdown-divider">
