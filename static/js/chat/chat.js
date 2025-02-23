@@ -118,12 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${roomPk}/`);
-    console.log(protocol);
 
     chatSocket.onopen = () => console.log("Connected to WebSocket");
     chatSocket.onerror = (e) => console.error("WebSocket Error", e);
     chatSocket.onclose = () => console.log("Disconnected from WebSocket.");
-    chatSocket.onmessage = (e) => console.log("Message:", e.data);
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);

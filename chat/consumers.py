@@ -1,4 +1,5 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+from notification.models import MessageNotification
 from django.core.files.base import ContentFile
 from asgiref.sync import sync_to_async
 from .models import Chat, Message
@@ -22,6 +23,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.user_group_name, self.channel_name)
 
         await self.accept()
+        
+        await self.mark_all_messages_as_read()
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -68,6 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
             await self.send_update(data)
+            await self.mark_all_messages_as_read()
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
@@ -181,3 +185,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if hasattr(user, "portal") and user.portal.avatar:
             return user.portal.avatar.url
         return "/media/portal/default-avatar.png"
+    
+    @sync_to_async
+    def mark_all_messages_as_read(self):
+        MessageNotification.objects.filter(user=self.scope['user'], chat_id=self.room_pk, is_read=False).update(is_read=True)

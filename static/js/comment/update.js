@@ -1,7 +1,7 @@
-$('#updateModal').on('show.bs.modal', function (event) {
-    const updateForm = document.getElementById("updateForm");
+$('#updateCommentModal').on('show.bs.modal', function (event) {
+    const updateForm = document.getElementById("updateCommentForm");
     const button = event.relatedTarget;
-    const area = document.getElementById("areaUpdate");
+    const area = document.getElementById("areaCommentUpdate");
     
     const pk = button.getAttribute('data-pk');
     const content = button.getAttribute('data-content');

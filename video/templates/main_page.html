@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Videos</title>
 {% endblock title %}
 
 {% block content %}
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="videoModalLabel">Create Post</h1>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'video-create' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ VideoForm.as_p }}
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                    <script>
+                        var textarea = document.getElementById('videoArea');
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
     <nav class="navbar bg-secondary">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1">Videos</span>
-            <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#postModal"><i class="bi bi-plus-lg"></i> Create</button>
+            <button class="btn btn-lg" data-bs-toggle="modal" type="button" data-bs-target="#videoModal"><i class="bi bi-plus-lg"></i> Create</button>
       </div>
     </nav>
     <div class="row">
