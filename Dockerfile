@@ -1,30 +1,27 @@
 FROM python:3.12-slim-bullseye
 
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV DJANGO_SETTINGS_MODULE=svepis.settings
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DJANGO_SETTINGS_MODULE=svepis.settings
 
 WORKDIR /app
 
-# Установить необходимые пакеты
-RUN apt-get update && apt-get install -y zip && apt-get install -y gcc supervisor unzip curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    zip gcc supervisor unzip curl nginx \
+    build-essential python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Копируем requirements.txt и устанавливаем зависимости
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем весь проект в контейнер
 COPY . /app/
-
 RUN chmod +x /app/entrypoint.sh
 
-# Открываем порты
-EXPOSE 8000
-EXPOSE 5252
+RUN mkdir -p /run/daphne/
 
-# Копируем конфиг supervisor
+EXPOSE 8000 443
+
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-# Запуск supervisor
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

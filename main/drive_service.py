@@ -31,16 +31,32 @@ def get_drive():
 def upload_file(local_path, gdrive_filename, folder_id=None):
     drive = get_drive()
     
-    file_metadata = {'title': gdrive_filename}
+    query = f"title='{gdrive_filename}'"
     if folder_id:
-        file_metadata['parents'] = [{'id': folder_id}]
+        query += f" and '{folder_id}' in parents"
+    
+    existing_files = drive.ListFile({'q': query}).GetList()
+    if existing_files:
+        file = existing_files[0]
+        
+        file.SetContentFile(local_path)
+        file.Upload()
+        
+        print(f'File {local_path} UPDATED on Google Drive as {gdrive_filename}')
 
-    file = drive.CreateFile(file_metadata)
-    file.SetContentFile(local_path)
-    file.Upload()
-    print(f"File {local_path} was uploaded to Google Drive as {gdrive_filename}")
+        return file['id']
+    else:
+        file_metadata = {'title': gdrive_filename}
+        if folder_id:
+            file_metadata['parents'] = [{'id': folder_id}]
+    
+        file = drive.CreateFile(file_metadata)
+        file.SetContentFile(local_path)
+        file.Upload()
+        
+        print(f"File {local_path} was uploaded to Google Drive as {gdrive_filename}")
 
-    return file['id']
+        return file['id']
 
 
 def download_file(gdrive_filename, local_path, folder_id=None):

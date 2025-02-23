@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
+from collections import defaultdict
 from django.urls import reverse
 import post.models
 import os
@@ -45,7 +46,7 @@ class GoogleDriveView(TemplateView):
                 
                 messages.success(request, "Backup successfully created and uploaded to Google Drive")
             except Exception as e:
-                messages.error(request, f"Error backup: {e}")
+                messages.error(request, f"Error while backup: {e}")
         elif 'delete' in request.POST:
             file_id = request.POST.get('file_id')
             if file_id:
@@ -53,7 +54,28 @@ class GoogleDriveView(TemplateView):
                     delete_file(file_id)
                     messages.success(request, "File successfully deleted from Google Drive")
                 except Exception as e:
-                    messages.error(request, f"Error deleting: {e}")
+                    messages.error(request, f"Error while deleting: {e}")
+        elif 'delete_all' in request.POST:
+            try:
+                drive = get_drive()
+                
+                all_files = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+                
+                groups = defaultdict(list)
+                for f in all_files:
+                    groups[f['title']].append(f)
+                
+                for title, group in groups.items():
+                    if len(group) > 1:
+                        group.sort(key=lambda x: x.get('createdDate') or x.get('fileSize', 0), reverse=True)
+
+                        for duplicate in group[1:][-100:]:
+                            delete_file(duplicate['id'])
+                
+                messages.success(request, f"Deleted 100 last from Google Drive")
+            except Exception as e:
+                messages.error(request, f"Error while deleting all: {e}")
+
         return redirect('gdrive-home')
                 
 

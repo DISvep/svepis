@@ -22,14 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('secret_key')
+SECRET_KEY = os.environ.get('secret_key', 'verysupersecretkeyblablabla1982739182739@*#(&!@(#*ADLK!!@#KJKJLADFSDLKF')
 GOOGLE_DRIVE_KEY_PATH = os.getenv('GOOGLE_DRIVE_KEY_PATH', 'gdrive_key.json')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [os.environ.get('allowed_hosts', '127.0.0.1')]
-
+CORS_ALLOWED_ORIGINS = [
+    "https://svepis.onrender.com"
+]
 
 # Application definition
 
