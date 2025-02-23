@@ -8,5 +8,9 @@ $("#deleteCommentModal").on('show.bs.modal', function (event) {
     deleteLabel.textContent = `Delete comment by @${username} at ${date}?`
     
     const deleteForm = document.getElementById("deleteCommentForm");
-    deleteForm.action = `/comment/${pk}/delete`;
+    if (video) {
+        deleteForm.action = `/comment/${pk}/video-delete`;
+    } else {
+        deleteForm.action = `/comment/${pk}/delete`;
+    }
 });

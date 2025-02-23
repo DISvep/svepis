@@ -14,7 +14,7 @@
 {% block content %}
     <div class="modal fade" id="addModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content p-3">
                 <form method="post" action="{% url 'add-widget' %}" enctype="multipart/form-data" id="widgetAddForm">
                     {% csrf_token %}
                     {{ widgetForm.as_p }}
@@ -27,7 +27,7 @@
 
     <div class="modal fade" id="editModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content p-3">
                 <select class="form-control" id="widgetChoice">
                     {% for widget in widgets %}
                         <option value="{{widget.id}}">
@@ -36,11 +36,11 @@
                     {% endfor %}
                 </select>
                 <label for="width">Width:</label>
-                <input class="form-control" type="number" id="width" min="10" max="600">
+                <input class="form-control" type="number" id="width" min="10" max="600" value="100">
                 <label for="height">Height:</label>
-                <input class="form-control" type="number" id="height" min="10" max="600">
+                <input class="form-control" type="number" id="height" min="10" max="600" value="100">
                 <label for="z-index">Z-index:</label>
-                <input class="form-control" type="number" id="z-index" min="0">
+                <input class="form-control" type="number" id="z-index" value="1">
                 <button class="btn btn-primary" type="submit" id="editSaveButton">Save</button>
                 <form method="post" action="" id="deleteWidgetForm">
                     {% csrf_token %}

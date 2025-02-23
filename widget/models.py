@@ -6,7 +6,6 @@ class Widget(models.Model):
     WIDGET_TYPES = [
         ('text', 'Text'),
         ('image', 'Image'),
-        ('video', 'Video')
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='widgets')
     widget_type = models.CharField(max_length=50, choices=WIDGET_TYPES)
