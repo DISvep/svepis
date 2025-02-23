@@ -11,7 +11,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -19,7 +18,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <script src="{% static 'js/comment/delete.js' %}"></script>
+                    <script src="{% static 'js/post/delete.js' %}"></script>
                 </div>
             </div>
         </div>
@@ -34,13 +33,54 @@
                 <div class="modal-body">
                     <form method="post" id="updateForm" action="">
                         {% csrf_token %}
-                        <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your comment..." name="content"></textarea>
+                        <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your post..." name="content"></textarea>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                    <script src="{% static 'js/post/update.js' %}"></script>
+                    <script>
+                        var textarea = document.getElementById("areaUpdate");
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteCommentModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" id="deleteCommentForm" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <script src="{% static 'js/comment/delete.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateCommentModal" tabindex="-1" aria-labelledby="updateCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateCommentModalLabel">Update Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="updateCommentForm" action="">
+                        {% csrf_token %}
+                        <textarea id="areaCommentUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your comment..." name="content"></textarea>
                         <hr>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                     <script src="{% static 'js/comment/update.js' %}"></script>
                     <script>
-                        var textarea = document.getElementById("areaUpdate");
+                        var textarea = document.getElementById("areaCommentUpdate");
                     </script>
                     <script src="{% static 'js/scaled_input.js' %}"></script>
                 </div>
@@ -68,6 +108,7 @@
                     {% include 'post.html' with detail=True comment=True display='block' pk=comment.pk user=comment.user current_user=current_user date=comment.date content=comment.content %}
                 </div>
             {% endfor %}
+            <script src="{% static 'js/reaction/add_reaction.js' %}"></script>
         </div>
     </div>
 {% endblock content %}
