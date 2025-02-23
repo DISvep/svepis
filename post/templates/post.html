@@ -17,11 +17,11 @@
                                     </svg>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    {% if user == current_user or current_user.is_superuser %}<li><button class="btn btn-lg dropdown-item" data-bs-toggle="modal" type="button" data-bs-target="#updateModal" data-pk="{{pk}}" data-content="{{content|escape}}"><b>edit</b></button></li>{% endif %}
+                                    {% if user == current_user or current_user.is_superuser %}<li><button class="btn btn-lg dropdown-item" data-bs-toggle="modal" type="button" data-bs-target="{% if comment %}#updateCommentModal{% else %}#updateModal{% endif %}" data-pk="{{pk}}" data-content="{{content|escape}}"><b>edit</b></button></li>{% endif %}
                                     <li><a class="dropdown-item text-warning" href="#"><b>report</b></a></li>
                                     {% if user == current_user or current_user.is_superuser %}<li><hr class="dropdown-divider border-top border-secondary"></li>
                                     <li>
-                                        <a type="button" class="dropdown-item text-danger delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-post-url="#" data-post-title="" data-pk="{{pk}}" data-username="{{user.username}}" data-date="{{date}}"><b>delete</b></a>
+                                        <a type="button" class="dropdown-item text-danger delete-button" data-bs-toggle="modal" data-bs-target="{% if comment %}#deleteCommentModal{% else %}#deleteModal{% endif %}" data-post-url="#" data-post-title="" data-pk="{{pk}}" data-username="{{user.username}}" data-date="{{date}}"><b>delete</b></a>
                                     </li>
                                     {% endif %}
                                 </ul>
