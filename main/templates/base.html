@@ -17,7 +17,7 @@
 
     <div class="modal fade" id="friendsModal" tabindex="-1" aria-labelledby="friendsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content p-3">
                 <h5>Friend list</h5>
                 <ul class="list-group">
                     {% for friend in current_user.friends.all %}
@@ -32,7 +32,7 @@
     
     <div class="modal fade" id="subscriptionsModal" tabindex="-1" aria-labelledby="subscriptionsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content p-3">
                 <h5>Subscriptions list</h5>
                 <ul class="list-group">
                     {% for subscription in current_user.subscription_list.subscriptions.all %}
@@ -49,7 +49,7 @@
     
     <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
+            <div class="modal-content p-3">
                 <h5>Requests</h5>
                 <ul class="list-group">
                     {% for request in current_user.receiver.all %}

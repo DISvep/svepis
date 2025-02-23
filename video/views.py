@@ -1,9 +1,10 @@
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse
 from comment.forms import VideoCommentForm
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from .forms import VideoForm
 from .models import Video
 
 
@@ -12,6 +13,13 @@ class MainView(ListView):
     model = Video
     template_name = 'main_page.html'
     context_object_name = 'videos'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['VideoForm'] = VideoForm
+        
+        return context
 
 
 class VideoView(DetailView):
@@ -25,6 +33,29 @@ class VideoView(DetailView):
         context['comment_form'] = VideoCommentForm
         
         return context
+
+
+class VideoCreateView(LoginRequiredMixin, CreateView):
+    model = Video
+    
+    def post(self, request, *args, **kwargs):
+        form = VideoForm(request.POST, request.FILES)
+        
+        print('video form')
+        
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            
+            return HttpResponseRedirect(reverse('main-video'))
+        else:
+            return HttpResponseRedirect(reverse('main-video'))
+        
+        
+class VideoDeleteView(LoginRequiredMixin, DeleteView):
+    model = Video
+    success_url = '/video'
 
 
 class LikeView(LoginRequiredMixin, UpdateView):

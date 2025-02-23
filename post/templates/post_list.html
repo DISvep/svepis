@@ -24,48 +24,48 @@
         </div>
     </div>
     <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="postModalLabel">Create Post</h1>
-          </div>
-          <div class="modal-body">
-            <form method="post" action="{% url 'post-create' %}">
-                {% csrf_token %}
-                {{ PostForm.as_p }}
-                <hr>
-                <button type="submit" class="btn btn-primary">Post</button>
-            </form>
-            <script>
-                var textarea = document.getElementById("postArea");
-            </script>
-              <script src="{% static 'js/scaled_input.js' %}"></script>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="postModalLabel">Create Post</h1>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'post-create' %}">
+                        {% csrf_token %}
+                        {{ PostForm.as_p }}
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                    <script>
+                        var textarea = document.getElementById("postArea");
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="updateModalLabel">Update Post</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form method="post" id="updateForm" action="">
-                {% csrf_token %}
-                <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your post..." name="content"></textarea>
-                <hr>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </form>
-              <script src="{% static 'js/post/update.js' %}"></script>
-              <script>
-                var textarea = document.getElementById("areaUpdate");
-              </script>
-              <script src="{% static 'js/scaled_input.js' %}"></script>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateModalLabel">Update Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="updateForm" action="">
+                        {% csrf_token %}
+                        <textarea id="areaUpdate" class="form-control" style="border: none; resize: none;" rows="1" placeholder="Update your post..." name="content"></textarea>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                    <script src="{% static 'js/post/update.js' %}"></script>
+                    <script>
+                        var textarea = document.getElementById("areaUpdate");
+                    </script>
+                    <script src="{% static 'js/scaled_input.js' %}"></script>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <nav class="navbar bg-secondary">
         <div class="container-fluid">
