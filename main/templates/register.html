@@ -10,6 +10,6 @@
         {{ form.as_p }}
         <button class="w-100 btn btn-lg btn-primary rounded-pill" type="submit">Register</button>
         <hr class="my-1">
-        <small class="text-body secondary text-center">Already have an account? <a href="/login/">LOGIN</a></small>
+        <small class="text-body secondary text-center">Already have an account? <a href="{% url 'login' %}">LOGIN</a></small>
     </form>
 {% endblock content %}
