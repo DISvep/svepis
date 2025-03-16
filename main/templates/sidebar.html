@@ -1,5 +1,6 @@
 {% load static %}
-<div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar" style="position: fixed;">
+{% load message_notifications %}
+<div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 sidebar">
     <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <span class="fs-3">Svepis</span>
     </a>
@@ -20,9 +21,9 @@
         <li class="sidebar-item">
             <a href="{% url 'chats' %}" class="nav-link sidebar-link">
                 <i class="fs-5 bi bi-chat-left"></i> <span class="ms-2 fs-5 d-none d-sm-inline">Chats</span>
-                {% if messages_count > 0 %}
+                {% if current_user|unread_messages > 0 %}
                     <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="margin-left: 1px;">
-                        {{ messages_count }}
+                        {{ current_user|unread_messages }}
                     </span>
                 {% endif %}
             </a>
